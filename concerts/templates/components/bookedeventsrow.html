@@ -1,0 +1,42 @@
+<div class="nopadding card-filter mb-3">
+  <div class="card shadow bg-400">
+    <div class="card-header">
+      <a
+        class="collapsed text-decoration-none d-flex"
+        data-bs-toggle="collapse"
+        href="#card-5-collapse"
+        aria-expanded="true"
+        aria-controls="collapse-collapsed"
+        id="heading-collapsed"
+      >
+        <h5 class="mb-0 align-self-center tx-000">Booking ID: 7168 4123</h5>
+        <i
+          class="
+            fa fa-lg fa-chevron-down fa-fw
+            ms-auto
+            align-self-center
+            tx-000
+          "
+        ></i>
+      </a>
+    </div>
+
+    <div
+      id="card-5-collapse"
+      class="collapse"
+      aria-labelledby="heading-collapsed"
+    >
+      <div class="p-0 bg-300 tx-000">
+        <form class="form-inline">
+          <div class="text-left mb-1 p-3">
+            <h5 class="">Date booked: 8 April, 2021</h5>
+            <h5 class="">Tickets booked: 1</h5>
+          </div>
+
+          <!-- eventcard -->
+          {% include "./components/eventcard.html" %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
