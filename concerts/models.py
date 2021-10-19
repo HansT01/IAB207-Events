@@ -25,6 +25,10 @@ class Comment:
         self.desc = desc
         self.created_at = created_at
 
-    def __repr__(self):
-        str = ("User: {0}\n" "Description: {1}\n").format(self.user, self.desc)
-        return str
+
+class Booking:
+    def __init__(self, id, date, tickets, price):
+        self.id = id
+        self.date = date
+        self.tickets = tickets
+        self.price = price
