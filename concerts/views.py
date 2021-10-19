@@ -45,7 +45,7 @@ def sample_event():
     venue = "EVENT VENUE"
     desc = "EVENT DESCRIPTION"
     status = "EVENT STATUS"
-    image = "EVENT IMAGE"
+    image = "../../static/images/pexels-wendy-wei-1540406.jpg"
     tickets = 200
     price = 25
 
