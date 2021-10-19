@@ -9,7 +9,9 @@
         aria-controls="collapse-collapsed"
         id="heading-collapsed"
       >
-        <h5 class="mb-0 align-self-center tx-000">Booking ID: 7168 4123</h5>
+        <h5 class="mb-0 align-self-center tx-000">
+          {{booking.event.title}} - Booking ID: {{booking.id}}
+        </h5>
         <i
           class="
             fa fa-lg fa-chevron-down fa-fw
@@ -29,10 +31,10 @@
       <div class="p-0 bg-300 tx-000">
         <form class="form-inline">
           <div class="text-left mb-1 p-3">
-            <h5 class="">Date booked: 8 April, 2021</h5>
-            <h5 class="">Tickets booked: 1</h5>
+            <h5 class="">Date booked: {{booking.datetime}}</h5>
+            <h5 class="">Tickets booked: {{booking.tickets}}</h5>
           </div>
-
+          {% set event = booking.event %}
           <!-- eventcard -->
           {% include "./components/eventcard.html" %}
         </form>

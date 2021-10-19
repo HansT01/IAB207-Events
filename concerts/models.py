@@ -27,8 +27,9 @@ class Comment:
 
 
 class Booking:
-    def __init__(self, id, date, tickets, price):
+    def __init__(self, event, id, datetime, tickets, price):
+        self.event = event
         self.id = id
-        self.date = date
+        self.datetime = datetime
         self.tickets = tickets
         self.price = price
