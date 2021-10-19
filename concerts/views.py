@@ -12,19 +12,19 @@ def index():
 @mainbp.route("/findevents")
 def findevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/findevents.html", events=events)
+    return render_template("pages/findevents.html", events=enumerate(events))
 
 
 @mainbp.route("/myevents")
 def myevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/myevents.html", events=events)
+    return render_template("pages/myevents.html", events=enumerate(events))
 
 
 @mainbp.route("/bookedevents")
 def bookedevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/bookedevents.html", events=events)
+    return render_template("pages/bookedevents.html", events=enumerate(events))
 
 
 @mainbp.route("/account")

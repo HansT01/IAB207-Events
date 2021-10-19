@@ -8,7 +8,7 @@
     {% include "./components/eventfilters.html" %}
 
     <div class="col-lg-8">
-      {% for event in events %}
+      {% for index, event in events %}
       <!-- findeventsrow -->
       {% include "./components/findeventsrow.html" %} {% endfor %}
     </div>
