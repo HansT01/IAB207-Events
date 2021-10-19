@@ -1,55 +1,61 @@
-<div class="container my-5">
-  <div class="d-flex justify-content-center">
-    <div class="card p-5 shadow bg-300 tx-000">
-      <div class="d-flex justify-content-center">
-        <h2>Log in</h2>
-      </div>
-      <div class="d-flex justify-content-center mt-3">
-        <form>
-          <div class="input-group mt-3">
-            <span class="input-group-text" id="input-group-left-example">
-              <i class="fa fa-envelope fa-fw"></i>
-            </span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Email"
-              aria-label="Email"
-              aria-describedby="input-group-left"
-            />
-          </div>
-
-          <div class="input-group mt-3">
-            <span class="input-group-text" id="input-group-left-example">
-              <i class="fa fa-key fa-fw"></i>
-            </span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Password"
-              aria-label="Password"
-              aria-describedby="input-group-left"
-            />
-          </div>
-
-          <div class="d-flex justify-content-center mt-4">
-            <button
-              type="button"
-              name="button"
-              class="btn bg-200 tx-000 login-button"
-            >
-              Login
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="mt-5">
-        <div class="d-flex justify-content-center">Don't have an account?</div>
+{% extends "base.html" %} {% block content %}
+<div class="page container">
+  <div class="container my-5">
+    <div class="d-flex justify-content-center">
+      <div class="card p-5 shadow bg-300 tx-000">
         <div class="d-flex justify-content-center">
-          Click&#160;<a href="#register">Register</a>
+          <h2>Log in</h2>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <form>
+            <div class="input-group mt-3">
+              <span class="input-group-text" id="input-group-left-example">
+                <i class="fa fa-envelope fa-fw"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Email"
+                aria-label="Email"
+                aria-describedby="input-group-left"
+              />
+            </div>
+
+            <div class="input-group mt-3">
+              <span class="input-group-text" id="input-group-left-example">
+                <i class="fa fa-key fa-fw"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Password"
+                aria-label="Password"
+                aria-describedby="input-group-left"
+              />
+            </div>
+
+            <div class="d-flex justify-content-center mt-4">
+              <button
+                type="button"
+                name="button"
+                class="btn bg-200 tx-000 login-button"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mt-5">
+          <div class="d-flex justify-content-center">
+            Don't have an account?
+          </div>
+          <div class="d-flex justify-content-center">
+            Click&#160;<a href="{{url_for('main.register')}}">Register</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}

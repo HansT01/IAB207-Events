@@ -2,13 +2,13 @@
   <div class="container">
     <ul class="navbar-nav d-flex justify-content-evenly w-100">
       <li class="nav-item">
-        <a class="nav-link d-flex" href="#home">
+        <a class="nav-link d-flex" href="{{url_for('main.index')}}">
           <svg class="fas fa-2x fa-home fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center"> Home page </span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="#find_events">
+        <a class="nav-link d-flex" href="{{url_for('main.findevents')}}">
           <svg class="fas fa-2x fa-search fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center">
             Find events
@@ -16,13 +16,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="#my_events">
+        <a class="nav-link d-flex" href="{{url_for('main.myevents')}}">
           <svg class="fas fa-2x fa-clipboard-list fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center"> My events </span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="#booked_events">
+        <a class="nav-link d-flex" href="{{url_for('main.bookedevents')}}">
           <svg class="fas fa-2x fa-bookmark fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center">
             Booked events
@@ -30,7 +30,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="#account">
+        <a class="nav-link d-flex" href="{{url_for('main.account')}}">
           <svg class="fas fa-2x fa-user-circle fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center"> Account </span>
         </a>
