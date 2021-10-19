@@ -1,35 +1,39 @@
-<div class="container home-page py-5 tx-000">
-  <div class="row">
-    <div class="d-flex justify-content-center text-center mt-4">
-      <h1><b>Hosting events don't have to be difficult.</b></h1>
+{% extends "base.html" %} {% block content %}
+<div id="home" class="page default fluid-container bg-300">
+  <div class="container home-page py-5 tx-000">
+    <div class="row">
+      <div class="d-flex justify-content-center text-center mt-4">
+        <h1><b>Hosting events don't have to be difficult.</b></h1>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="d-flex justify-content-center text-center mt-4">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
-        ducimus ipsam facilis. Deserunt dolorum vel praesentium quibusdam
-        repudiandae nemo iste!
-      </p>
+    <div class="row">
+      <div class="d-flex justify-content-center text-center mt-4">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus
+          ducimus ipsam facilis. Deserunt dolorum vel praesentium quibusdam
+          repudiandae nemo iste!
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="d-flex justify-content-center mt-4">
-      <a href="#find_events">
-        <button
-          type="button"
-          name="button"
-          class="btn bg-200 tx-000 login-button"
-        >
-          Get started
-        </button>
-      </a>
+    <div class="row">
+      <div class="d-flex justify-content-center mt-4">
+        <a href="#find_events">
+          <button
+            type="button"
+            name="button"
+            class="btn bg-200 tx-000 login-button"
+          >
+            Get started
+          </button>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="row mt-4">
-    <div class="d-flex justify-content-center">Already have an account?</div>
-    <div class="d-flex justify-content-center">
-      Click&#160;<a href="#account">here</a>&#160;to log in.
+    <div class="row mt-4">
+      <div class="d-flex justify-content-center">Already have an account?</div>
+      <div class="d-flex justify-content-center">
+        Click&#160;<a href="#account">here</a>&#160;to log in.
+      </div>
     </div>
   </div>
 </div>
+{% endblock content %}
