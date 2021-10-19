@@ -38,4 +38,11 @@ def sample_event():
     comment = Comment(comment_user, comment_desc, comment_time)
     event.add_comment(comment)
 
+    comment_user = "USERNAME"
+    comment_desc = "COMMENT DESCRIPTION"
+    comment_time = "3:19 AM"
+
+    comment = Comment(comment_user, comment_desc, comment_time)
+    event.add_comment(comment)
+
     return event

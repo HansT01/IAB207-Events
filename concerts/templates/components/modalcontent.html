@@ -62,10 +62,10 @@
         </div>
       </section>
 
-      <hr />
+      <hr class="m-0" />
 
-      <div class="ps-3 pe-3">
-        <div class="row pt-0 mb-3">
+      <div class="p-3">
+        <div class="row pt-0">
           <div class="input-box mb-5">
             <textarea class="form-control"></textarea>
             <button type="button" class="comment-button btn bg-200 tx-000">
@@ -74,7 +74,7 @@
           </div>
         </div>
 
-        {% for comment in comments %}
+        {% for comment in event.comments %}
         <!-- modalcomment -->
         {% include "./components/modalcomment.html" %} {% endfor %}
       </div>
