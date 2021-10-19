@@ -65,10 +65,10 @@ img {
 
 /* hide non-target page, ignore default page */
 /* only hide default page if the 'target' selector is used */
-div.page:not(:target):not(.default),
+/* div.page:not(:target):not(.default),
 div.page:target ~ .default {
   display: none;
-}
+} */
 
 /* Utility classes */
 .nopadding {
