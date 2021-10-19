@@ -1,14 +1,10 @@
 <div class="row mt-0 mb-3">
   <div class="row mb-0">
-    <h4 class="mb-0 mb-1">Joshua</h4>
-    <h6 class="tx-100">comment posted 6 July</h6>
+    <h4 class="mb-0 mb-1">{{comment.user}}</h4>
+    <h6 class="tx-100">comment posted {{comment.created_at}}</h6>
   </div>
 
   <div class="row mb-2">
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et tempore
-      inventore aliquid. Temporibus quos porro qui fugit? Explicabo, quod
-      itaque?
-    </p>
+    <p>{{comment.desc}}</p>
   </div>
 </div>
