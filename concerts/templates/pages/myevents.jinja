@@ -12,14 +12,14 @@
         Create event
       </button>
     </div>
-    
+
     {% for index, event in events %}
     <!-- myeventsrow -->
-    {% include "./components/myeventsrow.jinja" %} {% endfor %}
+    {% include "./components/myeventsrow.jinja" %}
+    {% endfor %}
   </div>
 </div>
 
 <!-- eventeditormodal -->
 {% include "./components/eventeditormodal.jinja" %}
-
 {% endblock content %}

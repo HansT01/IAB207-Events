@@ -1,26 +1,11 @@
-<div
-  class="modal fade"
-  id="modal-{{index}}"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="modal-{{index}}" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content bg-400 border-0 tx-000">
-      <button
-        type="button"
-        class="btn-close btn-close-white"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-      ></button>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 
       <div class="ratio ratio-16x9">
-        <img
-          src="{{event.image}}"
-          class="img-fluid rounded-top"
-          alt="concert"
-        />
+        <img src="{{event.image}}" class="img-fluid rounded-top" alt="concert" />
       </div>
 
       <section class="modal-body">
@@ -45,13 +30,8 @@
           </div>
           <div class="col-auto text-sm-end">
             <p>{{event.tickets}} tickets available for {{event.price}} each!</p>
-            <button
-              type="button"
-              class="col btn bg-200 tx-000"
-              data-bs-dismiss="modal"
-              data-bs-toggle="modal"
-              href="#booking-modal-{{index}}"
-            >
+            <button type="button" class="col btn bg-200 tx-000" data-bs-dismiss="modal" data-bs-toggle="modal"
+              href="#booking-modal-{{index}}">
               Buy a ticket here!
             </button>
           </div>
@@ -76,7 +56,8 @@
 
         {% for comment in event.comments %}
         <!-- modalcomment -->
-        {% include "./components/modalcomment.jinja" %} {% endfor %}
+        {% include "./components/modalcomment.jinja" %}
+        {% endfor %}
       </div>
     </div>
   </div>
