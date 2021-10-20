@@ -269,15 +269,10 @@ a:hover {
 }
 
 /* Button */
-button:hover {
+.btn:hover {
   background-color: var(--clr-primary-100) !important;
 }
 
 .comment-deco .btn:hover {
   color: var(--clr-primary-100) !important;
 }
-
-/* Card hover effect */
-/* .card-modal > .card:hover {
-  transform: scale(1.02);
-} */

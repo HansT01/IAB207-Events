@@ -1,6 +1,8 @@
 {% macro render_field(field) %}
 
+{% if field.type != "SubmitField" %}
 {{ field.label }}
+{% endif %}
 
 {{ field(**kwargs)|safe }}
 
