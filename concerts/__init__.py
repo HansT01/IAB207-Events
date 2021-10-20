@@ -5,6 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# CREATING DATABASE FILE
+# from travel import db, create_app
+# app = create_app()
+# ctx = app.app_context()
+# ctx.push()
+# db.create_all()
+# quit()
+
 
 def create_app():
     app = Flask(__name__)
@@ -18,7 +26,7 @@ def create_app():
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     # Setup sql alchemy
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///concerts.sqlite"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///events.sqlite"
     db.init_app(app)
 
     # Add blueprints

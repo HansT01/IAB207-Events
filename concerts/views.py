@@ -8,7 +8,8 @@ from .forms import (
     RegisterForm,
     CommentForm,
 )
-from .models import Event, Comment, Booking
+from .models import Event, Comment, Booking, User
+from . import db
 
 mainbp = Blueprint("main", __name__)
 
@@ -20,7 +21,8 @@ def index():
 
 @mainbp.route("/findevents")
 def findevents():
-    events = [sample_event(), sample_event()]
+    events = Event.query.all()
+
     commentform = CommentForm()
     bookingform = BookingForm()
     filterform = FilterForm()
@@ -48,7 +50,8 @@ def findevents():
 
 @mainbp.route("/myevents")
 def myevents():
-    events = [sample_event(), sample_event()]
+    events = Event.query.all()
+
     eventform = EventForm()
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -76,7 +79,8 @@ def myevents():
 
 @mainbp.route("/bookedevents")
 def bookedevents():
-    bookings = [sample_booking(), sample_booking()]
+    bookings = Booking.query.all()
+
     commentform = CommentForm()
     bookingform = BookingForm()
 
@@ -96,22 +100,30 @@ def bookedevents():
     )
 
 
-@mainbp.route("/account")
+@mainbp.route("/account", methods=["GET", "POST"])
 def account():
     loginform = LoginForm()
+    error = None
 
     if loginform.validate_on_submit():
+        email = loginform.email.data
+        password = loginform.password.data
+
         print("Successfully logged in")
         return redirect(url_for("account"))
 
     return render_template("pages/account.jinja", loginform=loginform)
 
 
-@mainbp.route("/register")
+@mainbp.route("/register", methods=["GET", "POST"])
 def register():
     registerform = RegisterForm()
 
     if registerform.validate_on_submit():
+        username = registerform.username.data
+        email = registerform.email.data
+        password = registerform.password.data
+
         print("Successfully registered")
         return redirect(url_for("account"))
 

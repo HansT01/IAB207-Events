@@ -1,35 +1,53 @@
-class Event:
-    def __init__(
-        self, title, artist, genre, datetime, venue, desc, status, image, tickets, price
-    ):
-        self.title = title
-        self.artist = artist
-        self.genre = genre
-        self.datetime = datetime
-        self.venue = venue
-        self.desc = desc
-        self.status = status
-        self.image = image
-        self.tickets = tickets
-        self.price = price
+from datetime import datetime
+from flask_login import UserMixin
 
-        self.comments = list()
-
-    def add_comment(self, comment):
-        self.comments.append(comment)
+from . import db
 
 
-class Comment:
-    def __init__(self, user, desc, created_at):
-        self.user = user
-        self.desc = desc
-        self.created_at = created_at
+class Event(db.Model):
+    __tablename__ = "events"
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+    title = db.Column(db.String(255))
+    artist = db.Column(db.String(255))
+    venue = db.Column(db.String(255))
+    status = db.Column(db.String(255))
+    image = db.Column(db.String(255))
+    desc = db.Column(db.Text)
+    tickets = db.Column(db.Integer)
+    price = db.Column(db.Float)
+
+    comments = db.relationship("Comment", backref="event")
+    bookings = db.relationship("Booking", backref="event")
 
 
-class Booking:
-    def __init__(self, event, id, datetime, tickets, price):
-        self.event = event
-        self.id = id
-        self.datetime = datetime
-        self.tickets = tickets
-        self.price = price
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+    desc = db.Column(db.Text)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    event_id = db.Column(db.Integer, db.ForeignKey("events.id"))
+
+
+class Booking(db.Model):
+    __tablename__ = "bookings"
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+    tickets = db.Column(db.Integer)
+    price = db.Column(db.Float)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    event_id = db.Column(db.Integer, db.ForeignKey("events.id"))
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), index=True, nullable=False)
+    email = db.Column(db.String(255), index=True, nullable=False, unique=True)
+    hash = db.Column(db.String(255), nullable=False)
+
+    comments = db.relationship("Comment", backref="user")
+    bookings = db.relationship("Booking", backref="user")
