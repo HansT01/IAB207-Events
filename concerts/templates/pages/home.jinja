@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.jinja" %}
+
+{% block content %}
 <div class="page default fluid-container bg-300">
   <div class="container home-page py-5 tx-000">
     <div class="row">
@@ -18,11 +20,7 @@
     <div class="row">
       <div class="d-flex justify-content-center mt-4">
         <a href="{{url_for('main.findevents')}}">
-          <button
-            type="button"
-            name="button"
-            class="btn bg-200 tx-000 login-button"
-          >
+          <button type="button" name="button" class="btn bg-200 tx-000 login-button">
             Get started
           </button>
         </a>

@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
+
+from .forms import LoginForm, RegisterForm
 from .models import Event, Comment, Booking
 
 mainbp = Blueprint("main", __name__)
@@ -6,35 +8,43 @@ mainbp = Blueprint("main", __name__)
 
 @mainbp.route("/")
 def index():
-    return render_template("pages/home.html")
+    return render_template("pages/home.jinja")
 
 
 @mainbp.route("/findevents")
 def findevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/findevents.html", events=enumerate(events))
+    return render_template("pages/findevents.jinja", events=enumerate(events))
 
 
 @mainbp.route("/myevents")
 def myevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/myevents.html", events=enumerate(events))
+    return render_template("pages/myevents.jinja", events=enumerate(events))
 
 
 @mainbp.route("/bookedevents")
 def bookedevents():
     bookings = [sample_booking(), sample_booking()]
-    return render_template("pages/bookedevents.html", bookings=enumerate(bookings))
+    return render_template("pages/bookedevents.jinja", bookings=enumerate(bookings))
 
 
 @mainbp.route("/account")
 def account():
-    return render_template("pages/account.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        print("Successfully logged in")
+        return redirect(url_for("account"))
+    return render_template("pages/account.jinja", form=form)
 
 
 @mainbp.route("/register")
 def register():
-    return render_template("pages/register.html")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print("Successfully registered")
+        return redirect(url_for("account"))
+    return render_template("pages/register.jinja", form=form)
 
 
 def sample_event():

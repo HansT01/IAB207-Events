@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.jinja" %} {% block content %}
 
 <div class="page container">
   <div class="mt-3 d-flex justify-content-center">
@@ -8,7 +8,7 @@
   <div class="row justify-content-center p-3">
     {% for index, booking in bookings %}
     <!-- bookedeventsrow -->
-    {% include "./components/bookedeventsrow.html" %} {% endfor %}
+    {% include "./components/bookedeventsrow.jinja" %} {% endfor %}
   </div>
 </div>
 {% endblock content %}
