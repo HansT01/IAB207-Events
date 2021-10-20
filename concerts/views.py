@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
 
-from .forms import EventForm, LoginForm, RegisterForm
+from .forms import EventForm, LoginForm, RegisterForm, CommentForm
 from .models import Event, Comment, Booking
 
 mainbp = Blueprint("main", __name__)
@@ -14,41 +14,55 @@ def index():
 @mainbp.route("/findevents")
 def findevents():
     events = [sample_event(), sample_event()]
-    return render_template("pages/findevents.jinja", events=enumerate(events))
+    commentform = CommentForm()
+    return render_template(
+        "pages/findevents.jinja", events=enumerate(events), commentform=commentform
+    )
 
 
 @mainbp.route("/myevents")
 def myevents():
     events = [sample_event(), sample_event()]
-    form = EventForm()
-    if form.validate_on_submit():
+    eventform = EventForm()
+    commentform = CommentForm()
+    if eventform.validate_on_submit():
         print("Successfully saved event")
         return redirect(url_for("myevents"))
-    return render_template("pages/myevents.jinja", events=enumerate(events), form=form)
+    return render_template(
+        "pages/myevents.jinja",
+        events=enumerate(events),
+        eventform=eventform,
+        commentform=commentform,
+    )
 
 
 @mainbp.route("/bookedevents")
 def bookedevents():
     bookings = [sample_booking(), sample_booking()]
-    return render_template("pages/bookedevents.jinja", bookings=enumerate(bookings))
+    commentform = CommentForm()
+    return render_template(
+        "pages/bookedevents.jinja",
+        bookings=enumerate(bookings),
+        commentform=commentform,
+    )
 
 
 @mainbp.route("/account")
 def account():
-    form = LoginForm()
-    if form.validate_on_submit():
+    loginform = LoginForm()
+    if loginform.validate_on_submit():
         print("Successfully logged in")
         return redirect(url_for("account"))
-    return render_template("pages/account.jinja", form=form)
+    return render_template("pages/account.jinja", loginform=loginform)
 
 
 @mainbp.route("/register")
 def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
+    registerform = RegisterForm()
+    if registerform.validate_on_submit():
         print("Successfully registered")
         return redirect(url_for("account"))
-    return render_template("pages/register.jinja", form=form)
+    return render_template("pages/register.jinja", registerform=registerform)
 
 
 def sample_event():

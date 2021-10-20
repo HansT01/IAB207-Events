@@ -67,4 +67,11 @@ class EventForm(FlaskForm):
     price = FloatField(
         "Ticket price", validators=[NumberRange(min=0, message="Enter a valid price")]
     )
-    submit = SubmitField("Save")
+    submit = SubmitField("Save changes")
+
+
+class CommentForm(FlaskForm):
+    desc = TextAreaField(
+        "Write a comment", validators=[InputRequired("Write a comment")]
+    )
+    submit = SubmitField("Comment")

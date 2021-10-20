@@ -10,49 +10,49 @@
         <form action="" method="post" class="form" role="form">
           <div class="row nopadding">
             <div class="mt-3">
-              {{ render_field(form.title, type="text", class="form-control") }}
+              {{ render_field(eventform.title, type="text", class="form-control") }}
             </div>
 
             <div class="mt-3">
-              {{ render_field(form.image, type="file", class="form-control") }}
+              {{ render_field(eventform.image, type="file", class="form-control") }}
             </div>
             {# <div class="ratio ratio-16x9 mb-3">
               <img src="./images/pexels-thibault-trillet-167491.jpg" class="img-fluid card-img" alt="concert" />
             </div> #}
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.genre, type="text", class="form-control") }}
+              {{ render_field(eventform.genre, type="text", class="form-control") }}
             </div>
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.status, type="text", class="form-control") }}
+              {{ render_field(eventform.status, type="text", class="form-control") }}
             </div>
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.venue, type="text", class="form-control") }}
+              {{ render_field(eventform.venue, type="text", class="form-control") }}
             </div>
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.datetime, type="datetime-local", class="form-control") }}
+              {{ render_field(eventform.datetime, type="datetime-local", class="form-control") }}
             </div>
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.tickets, type="number", class="form-control") }}
+              {{ render_field(eventform.tickets, type="number", class="form-control") }}
             </div>
 
             <div class="mt-3 col-sm-6">
-              {{ render_field(form.price, type="number", class="form-control") }}
+              {{ render_field(eventform.price, type="number", class="form-control") }}
             </div>
           </div>
 
           <div class="row nopadding mb-3">
             <div class="mt-3">
-              {{ render_field(form.desc, type="text", class="form-control") }}
+              {{ render_field(eventform.desc, type="text", class="form-control") }}
             </div>
           </div>
 
           <div class="row d-flex justify-content-center">
-            {{ render_field(form.submit, type="submit", class="btn bg-200 tx-000 login-button") }}
+            {{ render_field(eventform.submit, type="submit", class="btn bg-200 tx-000 login-button") }}
           </div>
         </form>
       </section>
