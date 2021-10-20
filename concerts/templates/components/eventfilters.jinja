@@ -1,3 +1,5 @@
+{% from "_formhelpers.jinja" import render_field %}
+
 <div class="col-lg-4 nopadding card-filter pe-3 mb-3">
   <div class="card shadow bg-400">
     <div class="card-header">
@@ -16,49 +18,35 @@
     <div id="collapse-collapsed" class="collapse show" aria-labelledby="heading-collapsed">
       <div class="p-3 bg-300 tx-000">
         <form class="form-inline">
-          <p class="text-left mb-1">Search by title:</p>
-          <div class="col input-box">
-            <input type="text" class="form-control" placeholder="Title" aria-label="Title"
-              aria-describedby="basic-addon1" />
+          <div class="">
+            {{ render_field(filterform.title, type="text", class="form-control") }}
           </div>
 
-          <p class="text-left mb-1 mt-3">Search by artist:</p>
-          <div class="col input-box">
-            <input type="text" class="form-control" placeholder="Artist" aria-label="Artist"
-              aria-describedby="basic-addon1" />
+          <div class="mt-3">
+            {{ render_field(filterform.artist, type="text", class="form-control") }}
           </div>
 
-          <p class="text-left mb-1 mt-3">Search by event category:</p>
-          <div class="col input-box">
-            <input type="text" class="form-control" placeholder="Category" aria-label="Category"
-              aria-describedby="basic-addon1" />
+          <div class="mt-3">
+            {{ render_field(filterform.genre, type="text", class="form-control") }}
           </div>
 
           <hr />
 
-          <p class="text-left mb-1 mt-3">Show events after:</p>
-          <div class="col input-box">
-            <input type="text" class="form-control" placeholder="DD-MM-YYYY" aria-label="Date"
-              aria-describedby="basic-addon1" />
-          </div>
-          <p class="text-left mb-1 mt-3">Show events before:</p>
-          <div class="col input-box">
-            <input type="text" class="form-control" placeholder="DD-MM-YYYY" aria-label="Date"
-              aria-describedby="basic-addon1" />
+          <div class="mt-3">
+            {{ render_field(filterform.afterdatetime, type="datetime-local", class="form-control") }}
           </div>
 
-          <p class="text-left mt-3 mb-1">Filter by event status:</p>
-          <select class="form-select" aria-label="status select">
-            <option selected>Select a status...</option>
-            <option value="upcoming">Upcoming</option>
-            <option value="inactive">Status</option>
-            <option value="booked">Booked</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
+          <div class="mt-3">
+            {{ render_field(filterform.beforedatetime, type="datetime-local", class="form-control") }}
+          </div>
 
-          <button type="sort" class="flex-shrink-1 btn tx-000 bg-200 mt-3 w-100">
-            Filter
-          </button>
+          <div class="mt-3">
+            {{ render_field(filterform.status, type="text", class="form-control") }}
+          </div>
+
+          <div class="mt-4">
+            {{ render_field(filterform.submit, type="submit", class="flex-shrink-1 btn tx-000 bg-200 w-100") }}
+          </div>
         </form>
       </div>
     </div>

@@ -86,3 +86,15 @@ class BookingForm(FlaskForm):
         ],
     )
     submit = SubmitField("Confirm booking")
+
+
+class FilterForm(FlaskForm):
+    title = StringField("Filter by title")
+    artist = StringField("Filter by artist")
+    genre = StringField("Filter by genre")
+
+    afterdatetime = DateTimeField("Search events after")
+    beforedatetime = DateTimeField("Search events befoer")
+    status = SelectField("Filter by event status", choices=EVENT_STATUS)
+
+    submit = SubmitField("Filter")

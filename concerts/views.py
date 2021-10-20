@@ -1,6 +1,13 @@
 from flask import Blueprint, render_template, redirect, url_for
 
-from .forms import BookingForm, EventForm, LoginForm, RegisterForm, CommentForm
+from .forms import (
+    BookingForm,
+    EventForm,
+    FilterForm,
+    LoginForm,
+    RegisterForm,
+    CommentForm,
+)
 from .models import Event, Comment, Booking
 
 mainbp = Blueprint("main", __name__)
@@ -16,6 +23,7 @@ def findevents():
     events = [sample_event(), sample_event()]
     commentform = CommentForm()
     bookingform = BookingForm()
+    filterform = FilterForm()
 
     if commentform.validate_on_submit():
         print("Successfully created comment")
@@ -25,11 +33,16 @@ def findevents():
         print("Successfully created booking")
         return redirect(url_for("bookedevents"))
 
+    if filterform.validate_on_submit():
+        print("Successfully filtered events")
+        return redirect(url_for("bookedevents"))
+
     return render_template(
         "pages/findevents.jinja",
         events=enumerate(events),
         commentform=commentform,
         bookingform=bookingform,
+        filterform=filterform,
     )
 
 
