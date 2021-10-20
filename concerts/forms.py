@@ -46,15 +46,15 @@ class EventForm(FlaskForm):
         "Venue address", validators=[InputRequired("Enter the venue address")]
     )
     desc = TextAreaField(
-        "Event title", validators=[InputRequired("Enter a description")]
+        "Description", validators=[InputRequired("Enter a description")]
     )
     status = SelectField(
-        "Event title",
+        "Status",
         choices=EVENT_STATUS,
         validators=[InputRequired("Select a status")],
     )
     image = FileField(
-        "Event title",
+        "Image",
         validators=[
             InputRequired("Image cannot be empty"),
             FileAllowed(IMAGE_FILE_FORMATS, message=IMAGE_FILE_FORMATS_MSG),
