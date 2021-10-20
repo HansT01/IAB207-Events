@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 from .forms import (
     BookingForm,
@@ -120,7 +120,7 @@ def account():
 
         if error is None:
             login_user(user)
-            return redirect(url_for("main.findevents"))
+            return redirect(url_for("main.account"))
         else:
             flash(error)
 
@@ -158,6 +158,13 @@ def register():
         return redirect(url_for("main.account"))
 
     return render_template("pages/register.jinja", registerform=registerform)
+
+
+@mainbp.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("main.account"))
 
 
 def sample_event():

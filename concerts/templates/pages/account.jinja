@@ -6,6 +6,21 @@
   <div class="container my-5">
     <div class="d-flex justify-content-center">
       <div class="card p-5 shadow bg-300 tx-000">
+        {% if current_user.is_authenticated %}
+
+        <div class="d-flex justify-content-center">
+          <h2>Logged in as {{current_user.username}}</h2>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <a href="{{ url_for('main.logout') }}">
+            <button type="button" class="btn bg-200 tx-000 login-button">
+              Log out
+            </button>
+          </a>
+        </div>
+
+        {% else %}
+
         <div class="d-flex justify-content-center">
           <h2>Log in</h2>
         </div>
@@ -22,7 +37,7 @@
 
             <div class="d-flex justify-content-center mt-4">
               <button type="submit" class="btn bg-200 tx-000 login-button">
-                Login
+                Log in
               </button>
             </div>
           </form>
@@ -36,6 +51,8 @@
             Click&#160;<a href="{{url_for('main.register')}}">Register</a>
           </div>
         </div>
+
+        {% endif %}
       </div>
     </div>
   </div>
