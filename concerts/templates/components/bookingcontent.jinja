@@ -1,3 +1,5 @@
+{% from "_formhelpers.jinja" import render_field %}
+
 <div class="modal" id="booking-modal-{{index}}" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content bg-400 tx-000">
@@ -17,19 +19,17 @@
             <div class="d-flex justify-content-center my-1">
               <h5>Available tickets: {{event.tickets}}</h5>
             </div>
-            <div class="d-flex justify-content-center">
-              <div class="my-4">
-                <label for="exampleInputEmail1" class="form-label">Enter in the number of tickets to book:</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+            <div class="d-flex justify-content-center my-4">
+              <div class="">
+                {{ render_field(bookingform.tickets, type="number", class="form-control") }}
               </div>
             </div>
+
             <div class="d-flex justify-content-center mb-4">
               <h5>Total price: SOME NUMBER</h5>
             </div>
             <div class="d-flex justify-content-center">
-              <button type="button" name="button" class="btn bg-200 tx-000 w-75 login-button">
-                Confirm booking
-              </button>
+              {{ render_field(bookingform.submit, type="submit", class="btn bg-200 tx-000 w-75 login-button") }}
             </div>
           </div>
         </div>

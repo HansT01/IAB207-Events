@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
 
-from .forms import EventForm, LoginForm, RegisterForm, CommentForm
+from .forms import BookingForm, EventForm, LoginForm, RegisterForm, CommentForm
 from .models import Event, Comment, Booking
 
 mainbp = Blueprint("main", __name__)
@@ -15,8 +15,21 @@ def index():
 def findevents():
     events = [sample_event(), sample_event()]
     commentform = CommentForm()
+    bookingform = BookingForm()
+
+    if commentform.validate_on_submit():
+        print("Successfully created comment")
+        return redirect(url_for("bookedevents"))
+
+    if bookingform.validate_on_submit():
+        print("Successfully created booking")
+        return redirect(url_for("bookedevents"))
+
     return render_template(
-        "pages/findevents.jinja", events=enumerate(events), commentform=commentform
+        "pages/findevents.jinja",
+        events=enumerate(events),
+        commentform=commentform,
+        bookingform=bookingform,
     )
 
 
@@ -25,14 +38,26 @@ def myevents():
     events = [sample_event(), sample_event()]
     eventform = EventForm()
     commentform = CommentForm()
+    bookingform = BookingForm()
+
     if eventform.validate_on_submit():
         print("Successfully saved event")
         return redirect(url_for("myevents"))
+
+    if commentform.validate_on_submit():
+        print("Successfully created comment")
+        return redirect(url_for("myevents"))
+
+    if bookingform.validate_on_submit():
+        print("Successfully created booking")
+        return redirect(url_for("myevents"))
+
     return render_template(
         "pages/myevents.jinja",
         events=enumerate(events),
         eventform=eventform,
         commentform=commentform,
+        bookingform=bookingform,
     )
 
 
@@ -40,28 +65,43 @@ def myevents():
 def bookedevents():
     bookings = [sample_booking(), sample_booking()]
     commentform = CommentForm()
+    bookingform = BookingForm()
+
+    if commentform.validate_on_submit():
+        print("Successfully created comment")
+        return redirect(url_for("bookedevents"))
+
+    if bookingform.validate_on_submit():
+        print("Successfully created booking")
+        return redirect(url_for("bookedevents"))
+
     return render_template(
         "pages/bookedevents.jinja",
         bookings=enumerate(bookings),
         commentform=commentform,
+        bookingform=bookingform,
     )
 
 
 @mainbp.route("/account")
 def account():
     loginform = LoginForm()
+
     if loginform.validate_on_submit():
         print("Successfully logged in")
         return redirect(url_for("account"))
+
     return render_template("pages/account.jinja", loginform=loginform)
 
 
 @mainbp.route("/register")
 def register():
     registerform = RegisterForm()
+
     if registerform.validate_on_submit():
         print("Successfully registered")
         return redirect(url_for("account"))
+
     return render_template("pages/register.jinja", registerform=registerform)
 
 

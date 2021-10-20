@@ -75,3 +75,14 @@ class CommentForm(FlaskForm):
         "Write a comment", validators=[InputRequired("Write a comment")]
     )
     submit = SubmitField("Comment")
+
+
+class BookingForm(FlaskForm):
+    tickets = IntegerField(
+        "Number of tickets",
+        validators=[
+            InputRequired("Enter the number of tickets to book"),
+            NumberRange(min=0, message="Enter a valid number of tickets"),
+        ],
+    )
+    submit = SubmitField("Confirm booking")
