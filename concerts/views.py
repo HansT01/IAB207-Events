@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, login_required, logout_user
 
 from .forms import (
     BookingForm,
@@ -109,8 +111,21 @@ def account():
         email = loginform.email.data
         password = loginform.password.data
 
+        user = User.query.filter_by(email=email).first()
+
+        if user is None:
+            error = "Incorrect email"
+        elif not check_password_hash(user.hash, password):
+            error = "Incorrect password"
+
+        if error is None:
+            login_user(user)
+            return redirect(url_for("main.findevents"))
+        else:
+            flash(error)
+
         print("Successfully logged in")
-        return redirect(url_for("account"))
+        return redirect(url_for("main.account"))
 
     return render_template("pages/account.jinja", loginform=loginform)
 
@@ -124,8 +139,23 @@ def register():
         email = registerform.email.data
         password = registerform.password.data
 
+        if User.query.filter_by(username=username).first():
+            flash("Username already exists")
+            print("Username already exists")
+            return redirect(url_for("main.account"))
+
+        hash = generate_password_hash(password)
+        user = User(username=username, email=email, hash=hash)
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash("Successfully registered")
         print("Successfully registered")
-        return redirect(url_for("account"))
+        print(
+            "Username: {0}\nEmail: {1}\nPassword: {2}".format(username, email, password)
+        )
+        return redirect(url_for("main.account"))
 
     return render_template("pages/register.jinja", registerform=registerform)
 

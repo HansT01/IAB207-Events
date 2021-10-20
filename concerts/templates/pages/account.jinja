@@ -11,6 +11,7 @@
         </div>
         <div class="d-flex justify-content-center mt-4">
           <form action="" method="post" class="form" role="form">
+            {{ loginform.csrf_token }}
             <div class="">
               {{ render_field(loginform.email, type="text", class="form-control") }}
             </div>

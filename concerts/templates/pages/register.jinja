@@ -10,7 +10,9 @@
           <h2>Register</h2>
         </div>
         <div class="d-flex justify-content-center mt-4">
-          <form>
+          <form method="post">
+            {{ registerform.csrf_token }}
+
             <div class="">
               {{ render_field(registerform.username, type="text", class="form-control") }}
             </div>
@@ -28,9 +30,7 @@
             </div>
 
             <div class="d-flex justify-content-center mt-4">
-              <button type="submit" class="btn bg-200 tx-000 login-button">
-                Register
-              </button>
+              {{ render_field(registerform.submit, type="submit", class="btn bg-200 tx-000 login-button") }}
             </div>
           </form>
         </div>

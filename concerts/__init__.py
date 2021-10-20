@@ -29,6 +29,18 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///events.sqlite"
     db.init_app(app)
 
+    # Initialize login manager
+    login_manager = LoginManager()
+    login_manager.login_view = "main.account"
+    login_manager.init_app(app)
+
+    # User loader function
+    from .models import User
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
     # Add blueprints
     from . import views
 
