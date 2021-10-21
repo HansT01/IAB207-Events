@@ -72,6 +72,7 @@ def myevents():
             timestamp=timestamp,
             title=eventform.title.data,
             artist=eventform.artist.data,
+            genre=eventform.genre.data,
             venue=eventform.venue.data,
             status=eventform.status.data,
             desc=eventform.desc.data,

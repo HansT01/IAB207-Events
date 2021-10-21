@@ -10,6 +10,7 @@ class Event(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now)
     title = db.Column(db.String(255))
     artist = db.Column(db.String(255))
+    genre = db.Column(db.String(255))
     venue = db.Column(db.String(255))
     status = db.Column(db.String(255))
     desc = db.Column(db.Text)
