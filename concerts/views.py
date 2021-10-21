@@ -102,7 +102,6 @@ def myevents():
 def bookedevents():
     bookings = Booking.query.all()
 
-    # Attach username comments to events, attach events to bookings
     for booking in bookings:
         event = Event.query.filter_by(id=booking.event_id).first()
         for comment in event.comments:
@@ -190,15 +189,21 @@ def logout():
     return redirect(url_for("main.account"))
 
 
-def check_upload_file(eventform):
+def check_upload_file(eventform, exists=None):
     file = eventform.image.data
-    filename = secure_filename(file.filename)
-    BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-    filepath = os.path.join(BASE_PATH, "static/images", filename)
-    file.save(filepath)
+    if file:
+        filename = secure_filename(file.filename)
+        BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(BASE_PATH, "static/images", filename)
+        file.save(filepath)
 
-    db_upload_path = "/static/images/" + filename
-    return db_upload_path
+        db_upload_path = "/static/images/" + filename
+        return db_upload_path
+    elif exists:
+        return exists
+    else:
+        db_upload_path = "/static/images/image-regular.png"
+        return db_upload_path
 
 
 def add_event(eventform):
@@ -226,7 +231,7 @@ def add_event(eventform):
 def update_event(eventform):
     event = Event.query.filter_by(id=eventform.event_id.data).first()
 
-    image = check_upload_file(eventform)
+    image = check_upload_file(eventform, event.image)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
 
     event.timestamp = timestamp

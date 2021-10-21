@@ -23,7 +23,11 @@
             </div>
 
             <div class="mt-3">
-              {{ render_field(eventform.image, type="file", class="form-control", value=event.image) }}
+              {% if event != none %}
+              {{ render_field(eventform.image, type="file", class="form-control", required=false) }}
+              {% else %}
+              {{ render_field(eventform.image, type="file", class="form-control") }}
+              {% endif %}
             </div>
 
             <div class="mt-3">
