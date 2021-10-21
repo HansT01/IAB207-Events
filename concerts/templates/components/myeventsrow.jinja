@@ -4,6 +4,9 @@
     {% include "./components/eventcard.jinja" %}
   </div>
 
+  <!-- eventeditormodal -->
+  {% include "./components/eventeditormodal.jinja" %}
+
   <div class="col-sm-3 d-flex justify-content-center ps-3 conditional-padding">
     <button class="
         btn
@@ -15,7 +18,7 @@
         w-100
         nopadding
         shadow
-      " type="button" data-bs-toggle="modal" data-bs-target="#event-editor">
+      " type="button" data-bs-toggle="modal" data-bs-target="#event-editor-{{index}}">
       Edit
     </button>
   </div>

@@ -64,6 +64,7 @@ class EventForm(FlaskForm):
         "Ticket price", validators=[NumberRange(min=0, message="Enter a valid price")]
     )
     submit = SubmitField("Save changes")
+    event_id = HiddenField("Event ID")
 
 
 class CommentForm(FlaskForm):

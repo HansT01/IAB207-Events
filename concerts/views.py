@@ -62,14 +62,18 @@ def myevents():
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
+        setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
     eventform = EventForm()
     commentform = CommentForm()
     bookingform = BookingForm()
 
     if eventform.validate_on_submit():
-
-        print("Successfully saved event")
+        event = Event.query.filter_by(id=eventform.event_id.data).first()
+        if event:
+            update_event(eventform)
+        else:
+            add_event(eventform)
         return redirect(url_for("main.myevents"))
 
     if commentform.validate_on_submit():
@@ -100,6 +104,7 @@ def bookedevents():
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
         setattr(booking, "event", event)
+        print(event.desc)
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -215,7 +220,7 @@ def add_event(eventform):
 
 
 def update_event(eventform):
-    event = Event.query.filter_by(id=eventform.event_id).first()
+    event = Event.query.filter_by(id=eventform.event_id.data).first()
 
     image = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
