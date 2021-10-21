@@ -62,11 +62,8 @@ def myevents():
     bookingform = BookingForm()
 
     if eventform.validate_on_submit():
-        print("Here")
         image = check_upload_file(eventform)
-        print(eventform.timestamp.data)
         timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
-        print(timestamp)
 
         event = Event(
             timestamp=timestamp,
@@ -88,13 +85,13 @@ def myevents():
         print("Successfully saved event")
         return redirect(url_for("main.myevents"))
 
-    # if commentform.validate_on_submit():
-    #     print("Successfully created comment")
-    #     return redirect(url_for("main.myevents"))
+    if commentform.validate_on_submit():
+        print("Successfully created comment")
+        return redirect(url_for("main.myevents"))
 
-    # if bookingform.validate_on_submit():
-    #     print("Successfully created booking")
-    #     return redirect(url_for("main.myevents"))
+    if bookingform.validate_on_submit():
+        print("Successfully created booking")
+        return redirect(url_for("main.myevents"))
 
     return render_template(
         "pages/myevents.jinja",
