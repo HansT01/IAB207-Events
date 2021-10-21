@@ -2,3 +2,4 @@
 *.pyc
 concerts/views_backup.py
 concerts/models_backup.py
+concerts/events.sqlite
