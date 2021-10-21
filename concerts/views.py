@@ -82,7 +82,7 @@ def findevents():
 @mainbp.route("/myevents", methods=["GET", "POST"])
 @login_required
 def myevents():
-    events = Event.query.filter_by(user_id=current_user.id).all()
+    events = current_user.events
     if events == []:
         flash("No events found")
 
@@ -128,7 +128,7 @@ def bookedevents():
     Renders booked events page by quering bookings with the current user's id.
     """
 
-    bookings = Booking.query.filter_by(user_id=current_user.id).all()
+    bookings = current_user.bookings
     if bookings == []:
         flash("No bookings found")
 

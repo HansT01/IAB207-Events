@@ -21,7 +21,6 @@ class Event(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     comments = db.relationship("Comment", backref="event")
-    bookings = db.relationship("Booking", backref="event")
 
 
 class Comment(db.Model):
@@ -52,5 +51,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), index=True, nullable=False, unique=True)
     hash = db.Column(db.String(255), nullable=False)
 
+    events = db.relationship("Event", backref="user")
     comments = db.relationship("Comment", backref="user")
     bookings = db.relationship("Booking", backref="user")
