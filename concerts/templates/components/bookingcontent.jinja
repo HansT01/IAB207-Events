@@ -23,7 +23,7 @@
               {{ bookingform.csrf_token }}
               {{ render_field(bookingform.event_id, type="hidden", value=event.id) }}
               {{ render_field(bookingform.price, type="hidden", value=event.price) }}
-              <div class="d-flex justify-content-center my-4">
+              <div class="my-4">
                 {{ render_field(bookingform.tickets, type="number", class="form-control") }}
               </div>
               <div class="d-flex justify-content-center">

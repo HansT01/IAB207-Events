@@ -9,8 +9,8 @@ IMAGE_FILE_FORMATS = {"jpg", "png", "jpeg"}
 EVENT_STATUS = [
     "upcoming",
     "inactive",
-    "booked",
     "cancelled",
+    "postponed",
 ]
 
 

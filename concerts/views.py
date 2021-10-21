@@ -60,14 +60,15 @@ def findevents():
 
 @mainbp.route("/myevents", methods=["GET", "POST"])
 def myevents():
-    events = Event.query.all()
+    events = Event.query.filter_by(user_id=current_user.id)
 
     for event in events:
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
+            print(comment.username)
+            print(comment.desc)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
-        print(event.desc)
 
     eventform = EventForm()
     commentform = CommentForm()
@@ -100,7 +101,7 @@ def myevents():
 
 @mainbp.route("/bookedevents", methods=["GET", "POST"])
 def bookedevents():
-    bookings = Booking.query.all()
+    bookings = Booking.query.filter_by(user_id=current_user.id)
 
     for booking in bookings:
         event = Event.query.filter_by(id=booking.event_id).first()

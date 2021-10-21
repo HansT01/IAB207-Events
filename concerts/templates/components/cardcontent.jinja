@@ -20,7 +20,7 @@
             <p>
               <b>Artist:</b> {{event.artist}} <br />
               <b>Genre:</b> {{event.genre}} <br />
-              <b>Date and time:</b> {{event.timestamp}}
+              <b>Date:</b> {{event.timestamp.strftime("%d %b %Y, %I:%M %p")}}
               <br />
               <b>Venue:</b> {{event.venue}}
             </p>

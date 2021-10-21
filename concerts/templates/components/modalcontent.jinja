@@ -25,13 +25,16 @@
             <p>
               <b>Artist:</b> {{event.artist}} <br />
               <b>Genre:</b> {{event.genre}} <br />
-              <b>Date and time:</b> {{event.timestamp}}
+              <b>Date:</b> {{event.timestamp.strftime("%d %b %Y, %I:%M %p")}}
               <br />
               <b>Venue:</b> {{event.venue}}
             </p>
           </div>
           <div class="col-auto text-sm-end">
-            <p>{{event.tickets}} tickets available for {{event.price}} each!</p>
+            <p>
+              {{event.tickets}} tickets available <br />
+              ${{event.price}} per ticket
+            </p>
             <button type="button" class="col btn bg-200 tx-000" data-bs-dismiss="modal" data-bs-toggle="modal"
               href="#booking-modal-{{index}}">
               Buy a ticket here!
