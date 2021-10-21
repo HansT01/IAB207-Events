@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, logout_user, current_user
@@ -26,7 +26,30 @@ def index():
 
 @mainbp.route("/findevents", methods=["GET", "POST"])
 def findevents():
-    events = Event.query.all()
+    query = Event.query
+
+    for key in request.args.keys():
+        if request.args[key] != "" and request.args[key] != "submit":
+            if key == "title":
+                title = "%" + request.args["title"] + "%"
+                query = query.filter(Event.title.like(title))
+            if key == "artist":
+                artist = "%" + request.args["artist"] + "%"
+                query = query.filter(Event.artist.like(artist))
+            if key == "genre":
+                genre = "%" + request.args["genre"] + "%"
+                query = query.filter(Event.genre.like(genre))
+            if key == "aftertimestamp":
+                aftertimestamp = request.args["aftertimestamp"]
+                query = query.filter(Event.timestamp >= aftertimestamp)
+            if key == "beforetimestamp":
+                beforetimestamp = request.args["beforetimestamp"]
+                query = query.filter(Event.timestamp <= beforetimestamp)
+            if key == "status":
+                status = request.args["status"]
+                query = query.filter(Event.status.like(status))
+
+    events = query.all()
 
     for event in events:
         for comment in event.comments:
@@ -43,10 +66,6 @@ def findevents():
 
     if bookingform.validate_on_submit():
         add_booking(bookingform)
-        return redirect(url_for("bookedevents"))
-
-    if filterform.validate_on_submit():
-        print("Successfully filtered events")
         return redirect(url_for("bookedevents"))
 
     return render_template(
