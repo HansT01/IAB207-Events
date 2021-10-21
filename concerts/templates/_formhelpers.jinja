@@ -7,12 +7,11 @@
 {{ field(**kwargs)|safe }}
 
 {% if field.errors %}
-<ul class="errors">
-  <p>error here</p>
-  {% for error in field.errors %}
-  {{flash(error)}}
-  {% endfor %}
-</ul>
+{% for error in field.errors %}
+<div class="form-text text-muted mt-2 tx-050">
+  {{error}}
+</div>
+{% endfor %}
 {% endif %}
 
 {% endmacro %}

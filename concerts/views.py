@@ -50,6 +50,8 @@ def findevents():
                 query = query.filter(Event.status.like(status))
 
     events = query.all()
+    if events == []:
+        flash("No events found")
 
     for event in events:
         for comment in event.comments:
@@ -81,6 +83,8 @@ def findevents():
 @login_required
 def myevents():
     events = Event.query.filter_by(user_id=current_user.id).all()
+    if events == []:
+        flash("No events found")
 
     for event in events:
         for comment in event.comments:
@@ -121,6 +125,8 @@ def myevents():
 @login_required
 def bookedevents():
     bookings = Booking.query.filter_by(user_id=current_user.id).all()
+    if bookings == []:
+        flash("No bookings found")
 
     for booking in bookings:
         event = Event.query.filter_by(id=booking.event_id).first()
