@@ -28,16 +28,21 @@ def index():
 def findevents():
     events = Event.query.all()
 
+    for event in events:
+        for comment in event.comments:
+            username = User.query.filter_by(id=comment.user_id).first().username
+            setattr(comment, "username", username)
+
     commentform = CommentForm()
     bookingform = BookingForm()
     filterform = FilterForm()
 
     if commentform.validate_on_submit():
-        print("Successfully created comment")
+        add_comment(commentform)
         return redirect(url_for("bookedevents"))
 
     if bookingform.validate_on_submit():
-        print("Successfully created booking")
+        add_booking(bookingform)
         return redirect(url_for("bookedevents"))
 
     if filterform.validate_on_submit():
@@ -57,12 +62,12 @@ def findevents():
 def myevents():
     events = Event.query.all()
 
-    # Attach username attribute to comment using user_id
     for event in events:
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
+        print(event.desc)
 
     eventform = EventForm()
     commentform = CommentForm()
@@ -97,14 +102,13 @@ def myevents():
 def bookedevents():
     bookings = Booking.query.all()
 
-    # Attach uesrname comments to events, attach events to bookings
+    # Attach username comments to events, attach events to bookings
     for booking in bookings:
         event = Event.query.filter_by(id=booking.event_id).first()
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
         setattr(booking, "event", event)
-        print(event.desc)
 
     commentform = CommentForm()
     bookingform = BookingForm()

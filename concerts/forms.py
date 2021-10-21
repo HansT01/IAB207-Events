@@ -6,7 +6,12 @@ from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import DateTimeField
 
 IMAGE_FILE_FORMATS = {"jpg", "png", "jpeg"}
-EVENT_STATUS = ["upcoming", "inactive", "booked", "cancelled"]
+EVENT_STATUS = [
+    ("1", "upcoming"),
+    ("2", "inactive"),
+    ("3", "booked"),
+    ("4", "cancelled"),
+]
 
 
 class LoginForm(FlaskForm):
