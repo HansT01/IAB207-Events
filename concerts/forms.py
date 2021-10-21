@@ -98,7 +98,7 @@ class FilterForm(FlaskForm):
     genre = StringField("Filter by genre")
 
     aftertimestamp = DateTimeField("Search events after")
-    beforetimestamp = DateTimeField("Search events befoer")
+    beforetimestamp = DateTimeField("Search events before")
     status = SelectField("Filter by event status", choices=EVENT_STATUS)
 
     submit = SubmitField("Filter")
