@@ -57,6 +57,12 @@ def findevents():
 def myevents():
     events = Event.query.all()
 
+    # Attach username attribute to comment using user_id
+    for event in events:
+        for comment in event.comments:
+            username = User.query.filter_by(id=comment.user_id).first().username
+            setattr(comment, "username", username)
+
     eventform = EventForm()
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -88,7 +94,10 @@ def myevents():
     if commentform.validate_on_submit():
         event_id = commentform.event_id.data
         comment = Comment(
-            desc=commentform.desc.data, user_id=current_user.id, event_id=event_id
+            desc=commentform.desc.data,
+            event_id=event_id,
+            user_id=current_user.id,
+            username=current_user.username,
         )
 
         db.session.add(comment)
@@ -113,6 +122,10 @@ def myevents():
 @mainbp.route("/bookedevents", methods=["GET", "POST"])
 def bookedevents():
     bookings = Booking.query.all()
+
+    for booking in bookings:
+        event = Event.query.filter_by(id=booking.event_id).first()
+        setattr(booking, "event", event)
 
     commentform = CommentForm()
     bookingform = BookingForm()
