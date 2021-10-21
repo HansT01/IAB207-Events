@@ -7,10 +7,10 @@ from wtforms.fields.html5 import DateTimeField
 
 IMAGE_FILE_FORMATS = {"jpg", "png", "jpeg"}
 EVENT_STATUS = [
-    ("1", "upcoming"),
-    ("2", "inactive"),
-    ("3", "booked"),
-    ("4", "cancelled"),
+    "upcoming",
+    "inactive",
+    "booked",
+    "cancelled",
 ]
 
 

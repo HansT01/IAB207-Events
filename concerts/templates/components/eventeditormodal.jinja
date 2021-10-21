@@ -36,12 +36,12 @@
 
             <div class="mt-3 col-sm-6">
               {{ eventform.status.label }}
-              <select class="form-control" id="status" name="status" type="text" selected="{{event.status}}">
+              <select class="form-control" id="status" name="status" type="text">
                 {% for option in eventform.status.choices %}
-                {% if option[0] == event.status %}
-                <option value="{{option[0]}}" selected>{{option[1]}}</option>
+                {% if option == event.status %}
+                <option value="{{option}}" selected>{{option}}</option>
                 {% else %}
-                <option value="{{option[0]}}">{{option[1]}}</option>
+                <option value="{{option}}">{{option}}</option>
                 {% endif %}
                 {% endfor %}
               </select>
