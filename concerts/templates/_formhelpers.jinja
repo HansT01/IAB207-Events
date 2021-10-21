@@ -1,6 +1,6 @@
 {% macro render_field(field) %}
 
-{% if field.type != "SubmitField" %}
+{% if field.type != "SubmitField" and field.type != "HiddenField" %}
 {{ field.label }}
 {% endif %}
 

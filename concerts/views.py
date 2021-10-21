@@ -86,6 +86,14 @@ def myevents():
         return redirect(url_for("main.myevents"))
 
     if commentform.validate_on_submit():
+        event_id = commentform.event_id.data
+        comment = Comment(
+            desc=commentform.desc.data, user_id=current_user.id, event_id=event_id
+        )
+
+        db.session.add(comment)
+        db.session.commit()
+
         print("Successfully created comment")
         return redirect(url_for("main.myevents"))
 

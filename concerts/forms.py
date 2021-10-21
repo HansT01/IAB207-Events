@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired, FileField
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.fields import FloatField, IntegerField, SelectField
+from wtforms.fields import FloatField, IntegerField, SelectField, HiddenField
 from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import DateTimeField
 
@@ -71,6 +71,7 @@ class CommentForm(FlaskForm):
         "Write a comment", validators=[InputRequired("Write a comment")]
     )
     submit = SubmitField("Comment")
+    event_id = HiddenField("Event ID")
 
 
 class BookingForm(FlaskForm):
