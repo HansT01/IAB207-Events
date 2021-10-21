@@ -50,8 +50,6 @@
                 {% endif %}
                 {% endfor %}
               </select>
-
-              {# {{ render_field(eventform.status, type="text", class="form-control") }} #}
             </div>
 
             <div class="mt-3 col-sm-6">
@@ -75,7 +73,6 @@
             <div class="mt-3">
               {{ eventform.desc.label }}
               <textarea class="form-control" id="desc" name="desc">{{ event.desc }}</textarea>
-              {# {{ render_field(eventform.desc, type="text", class="form-control", value=event.desc) }} #}
             </div>
           </div>
 

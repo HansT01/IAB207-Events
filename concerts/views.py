@@ -79,21 +79,25 @@ def findevents():
 
 @mainbp.route("/myevents", methods=["GET", "POST"])
 def myevents():
-    events = Event.query.filter_by(user_id=current_user.id)
+    events = Event.query.filter_by(user_id=current_user.id).all()
 
     for event in events:
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
-        print(event.timestamp.strftime("%Y-%m-%dT%H:%M"))
+        # print(event.timestamp.strftime("%Y-%m-%dT%H:%M"))
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
     eventform = EventForm()
     commentform = CommentForm()
     bookingform = BookingForm()
 
+    print(eventform.validate_on_submit())
+
     if eventform.validate_on_submit():
+        print("here")
         event = Event.query.filter_by(id=eventform.event_id.data).first()
+        print(eventform.timestamp.data)
         if event:
             update_event(eventform)
         else:

@@ -57,7 +57,6 @@ class EventForm(FlaskForm):
     image = FileField(
         "Image",
         validators=[
-            FileRequired(message="Image cannot be empty"),
             FileAllowed(IMAGE_FILE_FORMATS, message="Images only!"),
         ],
     )
