@@ -18,7 +18,7 @@
     <div id="collapse-{{index}}" class="collapse" aria-labelledby="heading-collapsed">
       <div class="p-0 bg-300 tx-000">
         <div class="text-left mb-1 p-3">
-          <h5 class="">Date booked: {{booking.timestamp}}</h5>
+          <h5 class="">Date booked: {{booking.timestamp.strftime("%d %b %Y, %I:%M %p")}}</h5>
           <h5 class="">Tickets booked: {{booking.tickets}}</h5>
           <h5 class="">Ticket price: ${{booking.price}}</h5>
         </div>

@@ -7,7 +7,7 @@ from . import db
 class Event(db.Model):
     __tablename__ = "events"
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.now)
+    timestamp = db.Column(db.DateTime)
     title = db.Column(db.String(255))
     artist = db.Column(db.String(255))
     genre = db.Column(db.String(255))
