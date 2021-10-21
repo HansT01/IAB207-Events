@@ -62,11 +62,11 @@ def findevents():
 
     if commentform.validate_on_submit():
         add_comment(commentform)
-        return redirect(url_for("bookedevents"))
+        return redirect(url_for("main.findevents"))
 
     if bookingform.validate_on_submit():
         add_booking(bookingform)
-        return redirect(url_for("bookedevents"))
+        return redirect(url_for("main.findevents"))
 
     return render_template(
         "pages/findevents.jinja",
@@ -78,6 +78,7 @@ def findevents():
 
 
 @mainbp.route("/myevents", methods=["GET", "POST"])
+@login_required
 def myevents():
     events = Event.query.filter_by(user_id=current_user.id).all()
 
@@ -117,6 +118,7 @@ def myevents():
 
 
 @mainbp.route("/bookedevents", methods=["GET", "POST"])
+@login_required
 def bookedevents():
     bookings = Booking.query.filter_by(user_id=current_user.id).all()
 
@@ -265,6 +267,7 @@ def update_event(eventform):
     db.session.commit()
 
 
+@login_required
 def add_comment(commentform):
     event_id = commentform.event_id.data
     comment = Comment(

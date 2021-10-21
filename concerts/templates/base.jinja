@@ -36,10 +36,10 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <div class="container-fluid">
-      <div class="row my-3">
+      <div class="row mt-3">
         <div class="col-md-12">
           {% for message in messages %}
-          <div class="alert alert-info">{{ message }}</div>
+          <div class="alert alert-info bg-200 tx-000 mb-0">{{ message }}</div>
           {% endfor %}
         </div>
       </div>

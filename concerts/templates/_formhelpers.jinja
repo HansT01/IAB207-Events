@@ -10,7 +10,7 @@
 <ul class="errors">
   <p>error here</p>
   {% for error in field.errors %}
-  <li>{{ error }}</li>
+  {{flash(error)}}
   {% endfor %}
 </ul>
 {% endif %}

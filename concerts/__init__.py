@@ -32,6 +32,7 @@ def create_app():
     # Initialize login manager
     login_manager = LoginManager()
     login_manager.login_view = "main.account"
+    login_manager.login_message = "Please log in to access this feature."
     login_manager.init_app(app)
 
     # User loader function
