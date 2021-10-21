@@ -19,18 +19,17 @@
             <div class="d-flex justify-content-center my-1">
               <h5>Available tickets: {{event.tickets}}</h5>
             </div>
-            <div class="d-flex justify-content-center my-4">
-              <div class="">
+            <form method="post">
+              {{ bookingform.csrf_token }}
+              {{ render_field(bookingform.event_id, type="hidden", value=event.id) }}
+              {{ render_field(bookingform.price, type="hidden", value=event.price) }}
+              <div class="d-flex justify-content-center my-4">
                 {{ render_field(bookingform.tickets, type="number", class="form-control") }}
               </div>
-            </div>
-
-            <div class="d-flex justify-content-center mb-4">
-              <h5>Total price: SOME NUMBER</h5>
-            </div>
-            <div class="d-flex justify-content-center">
-              {{ render_field(bookingform.submit, type="submit", class="btn bg-200 tx-000 w-75 login-button") }}
-            </div>
+              <div class="d-flex justify-content-center">
+                {{ render_field(bookingform.submit, type="submit", class="btn bg-200 tx-000 w-75 login-button") }}
+              </div>
+            </form>
           </div>
         </div>
       </div>

@@ -68,46 +68,16 @@ def myevents():
     bookingform = BookingForm()
 
     if eventform.validate_on_submit():
-        image = check_upload_file(eventform)
-        timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
-
-        event = Event(
-            timestamp=timestamp,
-            title=eventform.title.data,
-            artist=eventform.artist.data,
-            genre=eventform.genre.data,
-            venue=eventform.venue.data,
-            status=eventform.status.data,
-            desc=eventform.desc.data,
-            tickets=eventform.tickets.data,
-            price=eventform.price.data,
-            image=image,
-            user_id=current_user.id,
-        )
-
-        db.session.add(event)
-        db.session.commit()
 
         print("Successfully saved event")
         return redirect(url_for("main.myevents"))
 
     if commentform.validate_on_submit():
-        event_id = commentform.event_id.data
-        comment = Comment(
-            desc=commentform.desc.data,
-            event_id=event_id,
-            user_id=current_user.id,
-            username=current_user.username,
-        )
-
-        db.session.add(comment)
-        db.session.commit()
-
-        print("Successfully created comment")
+        add_comment(commentform)
         return redirect(url_for("main.myevents"))
 
     if bookingform.validate_on_submit():
-        print("Successfully created booking")
+        add_booking(bookingform)
         return redirect(url_for("main.myevents"))
 
     return render_template(
@@ -123,20 +93,24 @@ def myevents():
 def bookedevents():
     bookings = Booking.query.all()
 
+    # Attach uesrname comments to events, attach events to bookings
     for booking in bookings:
         event = Event.query.filter_by(id=booking.event_id).first()
+        for comment in event.comments:
+            username = User.query.filter_by(id=comment.user_id).first().username
+            setattr(comment, "username", username)
         setattr(booking, "event", event)
 
     commentform = CommentForm()
     bookingform = BookingForm()
 
     if commentform.validate_on_submit():
-        print("Successfully created comment")
-        return redirect(url_for("bookedevents"))
+        add_comment(commentform)
+        return redirect(url_for("main.bookedevents"))
 
     if bookingform.validate_on_submit():
-        print("Successfully created booking")
-        return redirect(url_for("bookedevents"))
+        add_booking(bookingform)
+        return redirect(url_for("main.bookedevents"))
 
     return render_template(
         "pages/bookedevents.jinja",
@@ -195,10 +169,6 @@ def register():
         db.session.commit()
 
         flash("Successfully registered")
-        print("Successfully registered")
-        print(
-            "Username: {0}\nEmail: {1}\nPassword: {2}".format(username, email, password)
-        )
         return redirect(url_for("main.account"))
 
     return render_template("pages/register.jinja", registerform=registerform)
@@ -222,46 +192,48 @@ def check_upload_file(eventform):
     return db_upload_path
 
 
-def sample_event():
-    title = "EVENT TITLE"
-    artist = "ARTIST NAME"
-    genre = "EVENT GENRE"
-    timestamp = "EVENT DATETIME"
-    venue = "EVENT VENUE"
-    desc = "EVENT DESCRIPTION"
-    status = "EVENT STATUS"
-    image = "../../static/images/pexels-wendy-wei-1540406.jpg"
-    tickets = 200
-    price = 25
+def add_event(eventform):
+    image = check_upload_file(eventform)
+    timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
 
     event = Event(
-        title, artist, genre, timestamp, venue, desc, status, image, tickets, price
+        timestamp=timestamp,
+        title=eventform.title.data,
+        artist=eventform.artist.data,
+        genre=eventform.genre.data,
+        venue=eventform.venue.data,
+        status=eventform.status.data,
+        desc=eventform.desc.data,
+        tickets=eventform.tickets.data,
+        price=eventform.price.data,
+        image=image,
+        user_id=current_user.id,
     )
 
-    comment_user = "USERNAME"
-    comment_desc = "COMMENT DESCRIPTION"
-    comment_timestamp = "COMMENT DATETIME"
-
-    comment = Comment(comment_user, comment_desc, comment_timestamp)
-    event.add_comment(comment)
-
-    comment_user = "USERNAME"
-    comment_desc = "COMMENT DESCRIPTION"
-    comment_timestamp = "COMMENT DATETIME"
-
-    comment = Comment(comment_user, comment_desc, comment_timestamp)
-    event.add_comment(comment)
-
-    return event
+    db.session.add(event)
+    db.session.commit()
 
 
-def sample_booking():
-    event = sample_event()
-    id = 19568335
-    timestamp = "DATETIME"
-    tickets = 1
-    price = event.price
+def add_comment(commentform):
+    event_id = commentform.event_id.data
+    comment = Comment(
+        desc=commentform.desc.data,
+        event_id=event_id,
+        user_id=current_user.id,
+    )
 
-    booking = Booking(event, id, timestamp, tickets, price)
+    db.session.add(comment)
+    db.session.commit()
 
-    return booking
+
+def add_booking(bookingform):
+    tickets = bookingform.tickets.data
+    price = bookingform.price.data
+    event_id = bookingform.event_id.data
+
+    booking = Booking(
+        tickets=tickets, price=price, event_id=event_id, user_id=current_user.id
+    )
+
+    db.session.add(booking)
+    db.session.commit()

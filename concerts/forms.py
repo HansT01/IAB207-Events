@@ -83,6 +83,8 @@ class BookingForm(FlaskForm):
         ],
     )
     submit = SubmitField("Confirm booking")
+    price = HiddenField("Ticket price")
+    event_id = HiddenField("Event ID")
 
 
 class FilterForm(FlaskForm):
