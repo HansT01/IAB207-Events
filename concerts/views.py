@@ -214,6 +214,27 @@ def add_event(eventform):
     db.session.commit()
 
 
+def update_event(eventform):
+    event = Event.query.filter_by(id=eventform.event_id).first()
+
+    image = check_upload_file(eventform)
+    timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
+
+    event.timestamp = timestamp
+    event.title = eventform.title.data
+    event.artist = eventform.artist.data
+    event.genre = eventform.genre.data
+    event.venue = eventform.venue.data
+    event.status = eventform.status.data
+    event.desc = eventform.desc.data
+    event.tickets = eventform.tickets.data
+    event.price = eventform.price.data
+    event.image = image
+    event.user_id = current_user.id
+
+    db.session.commit()
+
+
 def add_comment(commentform):
     event_id = commentform.event_id.data
     comment = Comment(
