@@ -1,20 +1,16 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed
+from flask_wtf.file import FileAllowed, FileRequired, FileField
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.fields import DateTimeField, FloatField, IntegerField, SelectField
-from wtforms.fields import FileField
+from wtforms.fields import FloatField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
+from wtforms.fields.html5 import DateTimeField
 
-IMAGE_FILE_FORMATS = {"png", "jpg", "jpeg"}
-IMAGE_FILE_FORMATS_MSG = "Only supports file formats: {0}".format(
-    ", ".join(map(str, IMAGE_FILE_FORMATS))
-)
-
-EVENT_STATUS = {"upcoming", "inactive", "booked", "cancelled"}
+IMAGE_FILE_FORMATS = {"jpg", "png", "jpeg"}
+EVENT_STATUS = ["upcoming", "inactive", "booked", "cancelled"]
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Email", validators=[InputRequired("Enter an email")])
+    email = StringField("Email", validators=[Email("Enter a valid email")])
     password = PasswordField("Password", validators=[InputRequired("Enter a password")])
     submit = SubmitField("Login")
 
@@ -39,8 +35,9 @@ class EventForm(FlaskForm):
         "Artist name", validators=[InputRequired("Enter the name of the artist")]
     )
     genre = StringField("Genre", validators=[InputRequired("Enter the event genre")])
-    datetime = DateTimeField(
-        "Date and time", validators=[InputRequired("Enter a title")]
+    timestamp = StringField(
+        "Date and time",
+        validators=[InputRequired("Enter a title")],
     )
     venue = StringField(
         "Venue address", validators=[InputRequired("Enter the venue address")]
@@ -51,13 +48,12 @@ class EventForm(FlaskForm):
     status = SelectField(
         "Status",
         choices=EVENT_STATUS,
-        validators=[InputRequired("Select a status")],
     )
     image = FileField(
         "Image",
         validators=[
-            InputRequired("Image cannot be empty"),
-            FileAllowed(IMAGE_FILE_FORMATS, message=IMAGE_FILE_FORMATS_MSG),
+            FileRequired(message="Image cannot be empty"),
+            FileAllowed(IMAGE_FILE_FORMATS, message="Images only!"),
         ],
     )
     tickets = IntegerField(
@@ -93,8 +89,8 @@ class FilterForm(FlaskForm):
     artist = StringField("Filter by artist")
     genre = StringField("Filter by genre")
 
-    afterdatetime = DateTimeField("Search events after")
-    beforedatetime = DateTimeField("Search events befoer")
+    aftertimestamp = DateTimeField("Search events after")
+    beforetimestamp = DateTimeField("Search events befoer")
     status = SelectField("Filter by event status", choices=EVENT_STATUS)
 
     submit = SubmitField("Filter")

@@ -4,9 +4,10 @@ from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+app = Flask(__name__)
 
 # CREATING DATABASE FILE
-# from travel import db, create_app
+# from concerts import db, create_app
 # app = create_app()
 # ctx = app.app_context()
 # ctx.push()
@@ -15,14 +16,13 @@ db = SQLAlchemy()
 
 
 def create_app():
-    app = Flask(__name__)
     app.secret_key = "secret_key"
 
     # Setup bootstrap for quick forms
     bootstrap = Bootstrap(app)
 
     # Configure upload folder
-    UPLOAD_FOLDER = "/static/image"
+    UPLOAD_FOLDER = "/concerts/static/images"
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     # Setup sql alchemy

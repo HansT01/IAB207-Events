@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, logout_user, current_user
+from datetime import datetime
+import os
 
 from .forms import (
     BookingForm,
@@ -11,7 +14,7 @@ from .forms import (
     CommentForm,
 )
 from .models import Event, Comment, Booking, User
-from . import db
+from . import db, app
 
 mainbp = Blueprint("main", __name__)
 
@@ -21,7 +24,7 @@ def index():
     return render_template("pages/home.jinja")
 
 
-@mainbp.route("/findevents")
+@mainbp.route("/findevents", methods=["GET", "POST"])
 def findevents():
     events = Event.query.all()
 
@@ -50,7 +53,7 @@ def findevents():
     )
 
 
-@mainbp.route("/myevents")
+@mainbp.route("/myevents", methods=["GET", "POST"])
 def myevents():
     events = Event.query.all()
 
@@ -59,16 +62,38 @@ def myevents():
     bookingform = BookingForm()
 
     if eventform.validate_on_submit():
+        print("Here")
+        image = check_upload_file(eventform)
+        print(eventform.timestamp.data)
+        timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
+        print(timestamp)
+
+        event = Event(
+            timestamp=timestamp,
+            title=eventform.title.data,
+            artist=eventform.artist.data,
+            venue=eventform.venue.data,
+            status=eventform.status.data,
+            desc=eventform.desc.data,
+            tickets=eventform.tickets.data,
+            price=eventform.price.data,
+            image=image,
+            user_id=current_user.id,
+        )
+
+        db.session.add(event)
+        db.session.commit()
+
         print("Successfully saved event")
-        return redirect(url_for("myevents"))
+        return redirect(url_for("main.myevents"))
 
-    if commentform.validate_on_submit():
-        print("Successfully created comment")
-        return redirect(url_for("myevents"))
+    # if commentform.validate_on_submit():
+    #     print("Successfully created comment")
+    #     return redirect(url_for("main.myevents"))
 
-    if bookingform.validate_on_submit():
-        print("Successfully created booking")
-        return redirect(url_for("myevents"))
+    # if bookingform.validate_on_submit():
+    #     print("Successfully created booking")
+    #     return redirect(url_for("main.myevents"))
 
     return render_template(
         "pages/myevents.jinja",
@@ -79,7 +104,7 @@ def myevents():
     )
 
 
-@mainbp.route("/bookedevents")
+@mainbp.route("/bookedevents", methods=["GET", "POST"])
 def bookedevents():
     bookings = Booking.query.all()
 
@@ -167,11 +192,22 @@ def logout():
     return redirect(url_for("main.account"))
 
 
+def check_upload_file(eventform):
+    file = eventform.image.data
+    filename = secure_filename(file.filename)
+    BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(BASE_PATH, "static/images", filename)
+    file.save(filepath)
+
+    db_upload_path = "/static/images/" + filename
+    return db_upload_path
+
+
 def sample_event():
     title = "EVENT TITLE"
     artist = "ARTIST NAME"
     genre = "EVENT GENRE"
-    datetime = "EVENT DATETIME"
+    timestamp = "EVENT DATETIME"
     venue = "EVENT VENUE"
     desc = "EVENT DESCRIPTION"
     status = "EVENT STATUS"
@@ -180,21 +216,21 @@ def sample_event():
     price = 25
 
     event = Event(
-        title, artist, genre, datetime, venue, desc, status, image, tickets, price
+        title, artist, genre, timestamp, venue, desc, status, image, tickets, price
     )
 
     comment_user = "USERNAME"
     comment_desc = "COMMENT DESCRIPTION"
-    comment_datetime = "COMMENT DATETIME"
+    comment_timestamp = "COMMENT DATETIME"
 
-    comment = Comment(comment_user, comment_desc, comment_datetime)
+    comment = Comment(comment_user, comment_desc, comment_timestamp)
     event.add_comment(comment)
 
     comment_user = "USERNAME"
     comment_desc = "COMMENT DESCRIPTION"
-    comment_datetime = "COMMENT DATETIME"
+    comment_timestamp = "COMMENT DATETIME"
 
-    comment = Comment(comment_user, comment_desc, comment_datetime)
+    comment = Comment(comment_user, comment_desc, comment_timestamp)
     event.add_comment(comment)
 
     return event
@@ -203,10 +239,10 @@ def sample_event():
 def sample_booking():
     event = sample_event()
     id = 19568335
-    datetime = "DATETIME"
+    timestamp = "DATETIME"
     tickets = 1
     price = event.price
 
-    booking = Booking(event, id, datetime, tickets, price)
+    booking = Booking(event, id, timestamp, tickets, price)
 
     return booking

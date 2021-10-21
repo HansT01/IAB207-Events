@@ -12,10 +12,12 @@ class Event(db.Model):
     artist = db.Column(db.String(255))
     venue = db.Column(db.String(255))
     status = db.Column(db.String(255))
-    image = db.Column(db.String(255))
     desc = db.Column(db.Text)
     tickets = db.Column(db.Integer)
     price = db.Column(db.Float)
+    image = db.Column(db.String(255))
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     comments = db.relationship("Comment", backref="event")
     bookings = db.relationship("Booking", backref="event")
