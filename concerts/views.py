@@ -286,6 +286,7 @@ def add_comment(commentform):
     db.session.commit()
 
 
+@login_required
 def add_booking(bookingform):
     tickets = bookingform.tickets.data
     price = bookingform.price.data
