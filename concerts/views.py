@@ -85,8 +85,7 @@ def myevents():
         for comment in event.comments:
             username = User.query.filter_by(id=comment.user_id).first().username
             setattr(comment, "username", username)
-            print(comment.username)
-            print(comment.desc)
+        print(event.timestamp.strftime("%Y-%m-%dT%H:%M"))
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
     eventform = EventForm()
