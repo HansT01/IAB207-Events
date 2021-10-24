@@ -28,7 +28,7 @@
               {% if event != none %}
               {{ render_field(eventform.image, type="file", class="form-control", required=false) }}
               {% else %}
-              {{ render_field(eventform.image, type="file", class="form-control") }}
+              {{ render_field(eventform.image, type="file", class="form-control", required=true) }}
               {% endif %}
             </div>
 
