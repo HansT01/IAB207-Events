@@ -26,6 +26,10 @@ def index():
 
 @mainbp.route("/findevents", methods=["GET", "POST"])
 def findevents():
+    """
+    Renders the findevents page.
+    Will use URL parameters to filter events.
+    """
     query = Event.query
 
     for key in request.args.keys():
@@ -53,9 +57,10 @@ def findevents():
     if events == []:
         flash("No events found")
 
+    # Comments only have the user's id stored, so the username must be queried.
     for event in events:
         for comment in event.comments:
-            username = User.query.filter_by(id=comment.user_id).first().username
+            username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
 
     commentform = CommentForm()
@@ -82,13 +87,19 @@ def findevents():
 @mainbp.route("/myevents", methods=["GET", "POST"])
 @login_required
 def myevents():
+    """
+    Renders the myevents page by quering events with the current user's id.
+    Requires the user to be logged in.
+    """
     events = current_user.events
     if events == []:
         flash("No events found")
 
+    # Comments only have the user's id stored, so the username must be queried.
+    # The timestamp for html's datetime-local and how it is stored in the database has different formatting.
     for event in events:
         for comment in event.comments:
-            username = User.query.filter_by(id=comment.user_id).first().username
+            username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
@@ -97,7 +108,7 @@ def myevents():
     bookingform = BookingForm()
 
     if eventform.validate_on_submit():
-        event = Event.query.filter_by(id=eventform.event_id.data).first()
+        event = Event.query.get(eventform.event_id.data)
         if event:
             update_event(eventform)
         else:
@@ -125,19 +136,21 @@ def myevents():
 @login_required
 def bookedevents():
     """
-    Renders booked events page by quering bookings with the current user's id.
+    Renders the bookedevents page by quering bookings with the current user's id.
+    Requires the user to be logged in.
     """
-
     bookings = current_user.bookings
     if bookings == []:
         flash("No bookings found")
 
+    # Bookings only have the event's id stored, so the event must be queried.
+    # Comments only have the user's id stored, so the username must be queried.
     for booking in bookings:
-        event = Event.query.filter_by(id=booking.event_id).first()
-        for comment in event.comments:
-            username = User.query.filter_by(id=comment.user_id).first().username
-            setattr(comment, "username", username)
+        event = Event.query.get(booking.event_id)
         setattr(booking, "event", event)
+        for comment in event.comments:
+            username = User.query.get(comment.user_id).username
+            setattr(comment, "username", username)
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -160,6 +173,9 @@ def bookedevents():
 
 @mainbp.route("/account", methods=["GET", "POST"])
 def account():
+    """
+    Renders the login page.
+    """
     loginform = LoginForm()
     error = None
 
@@ -187,6 +203,9 @@ def account():
 
 @mainbp.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Renders the register page.
+    """
     registerform = RegisterForm()
 
     if registerform.validate_on_submit():
@@ -196,6 +215,10 @@ def register():
 
         if User.query.filter_by(username=username).first():
             flash("Username already exists")
+            return redirect(url_for("main.account"))
+
+        if User.query.filter_by(email=email).first():
+            flash("Email already exists")
             return redirect(url_for("main.account"))
 
         hash = generate_password_hash(password)
@@ -213,12 +236,22 @@ def register():
 @mainbp.route("/logout")
 @login_required
 def logout():
+    """
+    Logs out the user and redirects to the account page.
+    """
     logout_user()
     return redirect(url_for("main.account"))
 
 
-def check_upload_file(eventform, exists=None):
+def check_upload_file(eventform):
+    """
+    Uploads a file from form to database and return its upload path.
+    If there is no input file and the event already exists, return the existing event's image upload path.
+    If there is no input file and no existing event, return the default image upload path.
+    """
     file = eventform.image.data
+    event_id = eventform.event_id.data
+
     if file:
         filename = secure_filename(file.filename)
         BASE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -227,14 +260,23 @@ def check_upload_file(eventform, exists=None):
 
         db_upload_path = "/static/images/" + filename
         return db_upload_path
-    elif exists:
-        return exists
+
+    elif event_id:
+        event = Event.query.get(event_id)
+        db_upload_path = event.image
+        return db_upload_path
+
     else:
+        flash("No image found, using default image")
         db_upload_path = "/static/images/image-regular.png"
         return db_upload_path
 
 
+@login_required
 def add_event(eventform):
+    """
+    Adds an event to the database.
+    """
     image = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
 
@@ -256,10 +298,15 @@ def add_event(eventform):
     db.session.commit()
 
 
+@login_required
 def update_event(eventform):
-    event = Event.query.filter_by(id=eventform.event_id.data).first()
+    """
+    Updates an event on the database.
+    Requires the user to be logged in.
+    """
+    event = Event.query.get(id=eventform.event_id.data)
 
-    image = check_upload_file(eventform, event.image)
+    image = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
 
     event.timestamp = timestamp
@@ -279,6 +326,10 @@ def update_event(eventform):
 
 @login_required
 def add_comment(commentform):
+    """
+    Adds a comment to the database.
+    Requires the user to be logged in.
+    """
     event_id = commentform.event_id.data
     comment = Comment(
         desc=commentform.desc.data,
@@ -292,6 +343,10 @@ def add_comment(commentform):
 
 @login_required
 def add_booking(bookingform):
+    """
+    Adds a booking to the database.
+    Requires the user to be logged in.
+    """
     tickets = bookingform.tickets.data
     price = bookingform.price.data
     event_id = bookingform.event_id.data
