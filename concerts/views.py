@@ -240,6 +240,7 @@ def logout():
     Logs out the user and redirects to the account page.
     """
     logout_user()
+    flash("Successfully logged out")
     return redirect(url_for("main.account"))
 
 
