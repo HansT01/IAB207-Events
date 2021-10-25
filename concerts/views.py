@@ -305,7 +305,7 @@ def update_event(eventform):
     Updates an event on the database.
     Requires the user to be logged in.
     """
-    event = Event.query.get(id=eventform.event_id.data)
+    event = Event.query.get(eventform.event_id.data)
 
     image = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
