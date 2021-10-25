@@ -6,14 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 app = Flask(__name__)
 
-# CREATING DATABASE FILE
-# from concerts import db, create_app
-# app = create_app()
-# ctx = app.app_context()
-# ctx.push()
-# db.create_all()
-# quit()
-
 
 def create_app():
     app.secret_key = "secret_key"
