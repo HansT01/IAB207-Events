@@ -7,7 +7,7 @@
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 
       <div class="ratio ratio-16x9">
-        <img src="{{event.image}}" class="img-fluid rounded-top" alt="concert" />
+        <img src="{{event.image}}" class="img-fluid rounded-top card-img" alt="concert" />
       </div>
 
       <section class="modal-body">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="row">
-          <p class="mt-2">{{event.desc}}</p>
+          <p class="mt-4 event-description">{{event.desc}}</p>
         </div>
       </section>
 
@@ -55,9 +55,7 @@
             <form method="post">
               {{ commentform.csrf_token }}
               {{ render_field(commentform.event_id, type="hidden", value=event.id) }}
-              <textarea class="form-control" id="desc" name="desc" placeholder="Write a comment" ,
-                oninput="auto_grow_textarea(this)"></textarea>
-
+              <textarea class="form-control" id="desc" name="desc" placeholder="Write a comment"></textarea>
               <div class="d-flex">
                 {{ render_field(commentform.submit, type="submit", class="ms-auto mt-3 btn bg-200 tx-000") }}
               </div>
