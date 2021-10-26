@@ -1,7 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import (
+    login_user,
+    login_required,
+    logout_user,
+    current_user,
+)
 from datetime import datetime
 import os
 
@@ -192,6 +197,8 @@ def bookedevents():
 
     if bookingform.validate_on_submit():
         add_booking(bookingform)
+        # bookings.price = bookings.price * bookings.tickets
+        # db.session.commit()
         return redirect(url_for("main.bookedevents"))
 
     return render_template(
@@ -243,6 +250,8 @@ def register():
         username = registerform.username.data
         email = registerform.email.data
         password = registerform.password.data
+        contact = registerform.contact.data
+        address = registerform.address.data
 
         if User.query.filter_by(username=username).first():
             flash("Username already exists")
@@ -253,7 +262,13 @@ def register():
             return redirect(url_for("main.account"))
 
         hash = generate_password_hash(password)
-        user = User(username=username, email=email, hash=hash)
+        user = User(
+            username=username,
+            email=email,
+            hash=hash,
+            contact_number=contact,
+            address=address,
+        )
 
         db.session.add(user)
         db.session.commit()
@@ -382,10 +397,17 @@ def add_booking(bookingform):
     tickets = bookingform.tickets.data
     price = bookingform.price.data
     event_id = bookingform.event_id.data
-
-    booking = Booking(
-        tickets=tickets, price=price, event_id=event_id, user_id=current_user.id
-    )
-
-    db.session.add(booking)
-    db.session.commit()
+    event = Event.query.get(event_id)
+    if tickets > event.tickets:
+        error = "Booking denied :Exceeded number of tickets available"
+        flash(error)
+    else:
+        booking = Booking(
+            tickets=tickets,
+            price=price,
+            event_id=event_id,
+            user_id=current_user.id,
+        )
+        event.tickets = event.tickets - tickets
+        db.session.add(booking)
+        db.session.commit()
