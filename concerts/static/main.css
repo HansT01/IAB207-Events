@@ -4,7 +4,7 @@
   --clr-primary-200: #66200e;
   --clr-primary-300: #ad3b1f;
   --clr-primary-400: #36302f;
-  --clr-primary-500: #ffffff;
+  --clr-primary-500: #fcf7eb;
 
   /* Vintage theme */
   /* --clr-primary-100: #ede7d9;
@@ -40,10 +40,6 @@ p {
   margin: 0;
 }
 
-body {
-  font-family: var(--ff-primary);
-}
-
 h1,
 h2,
 h3,
@@ -52,9 +48,24 @@ h5 {
   font-family: var(--ff-accent);
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  font-family: var(--ff-primary);
+  height: 100%;
+}
+
 main {
   /* margin for navbar */
   padding-top: 4rem;
+  /* background-color: green; */
+  min-height: 100%;
+}
+
+.page {
+  min-height: calc(100vh - 4rem);
 }
 
 /* Should be used for all css, keeps image max width at 100% of container width */
@@ -62,13 +73,6 @@ img {
   display: block;
   max-width: 100%;
 }
-
-/* hide non-target page, ignore default page */
-/* only hide default page if the 'target' selector is used */
-/* div.page:not(:target):not(.default),
-div.page:target ~ .default {
-  display: none;
-} */
 
 /* Utility classes */
 .nopadding {
@@ -103,6 +107,11 @@ div.page:target ~ .default {
 .bg-500 {
   background-color: var(--clr-primary-500);
   border-color: var(--clr-primary-500);
+}
+
+.bg-1000 {
+  background-color: var(--clr-neutral-1000);
+  border-color: var(--clr-neutral-1000);
 }
 
 .tx-000 {
@@ -281,9 +290,12 @@ a:hover {
   color: var(--clr-primary-100) !important;
 }
 
+/* Default height of text area when rendered */
 textarea {
-  resize: none;
-  overflow: hidden;
-  min-height: 65px;
-  max-height: 250px;
+  height: 90px;
+}
+
+/* Keep text white space when rendering event description */
+.event-description {
+  white-space: pre-wrap;
 }

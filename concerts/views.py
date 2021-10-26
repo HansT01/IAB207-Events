@@ -403,7 +403,6 @@ def add_comment(commentform):
         event_id=event_id,
         user_id=current_user.id,
         username=current_user.username,
-        timestamp=datetime.now(),
     )
 
     db.session.add(comment)
