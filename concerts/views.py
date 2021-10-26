@@ -84,6 +84,37 @@ def findevents():
     )
 
 
+@mainbp.route("/findevents/<id>", methods=["GET", "POST"])
+def eventdetails(id):
+    """
+    Renders the eventdetails page.
+    Will use URL parameters to filter events.
+    """
+    event = Event.query.get(id)
+
+    for comment in event.comments:
+        username = User.query.get(comment.user_id).username
+        setattr(comment, "username", username)
+
+    commentform = CommentForm()
+    bookingform = BookingForm()
+
+    if commentform.validate_on_submit():
+        add_comment(commentform)
+        return redirect(url_for("main.eventdetails", id=id))
+
+    if bookingform.validate_on_submit():
+        add_booking(bookingform)
+        return redirect(url_for("main.eventdetails", id=id))
+
+    return render_template(
+        "pages/eventdetails.jinja",
+        event=event,
+        commentform=commentform,
+        bookingform=bookingform,
+    )
+
+
 @mainbp.route("/myevents", methods=["GET", "POST"])
 @login_required
 def myevents():
