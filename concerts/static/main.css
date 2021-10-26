@@ -280,3 +280,10 @@ a:hover {
 .comment-deco .btn:hover {
   color: var(--clr-primary-100) !important;
 }
+
+textarea {
+  resize: none;
+  overflow: hidden;
+  min-height: 65px;
+  max-height: 250px;
+}

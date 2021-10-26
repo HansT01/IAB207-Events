@@ -101,4 +101,4 @@ class FilterForm(FlaskForm):
     beforetimestamp = DateTimeField("Search events before")
     status = SelectField("Filter by event status", choices=EVENT_STATUS)
 
-    submit = SubmitField("Filter")
+    submit = SubmitField("Search")
