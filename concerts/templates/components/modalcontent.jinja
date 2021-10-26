@@ -51,13 +51,16 @@
 
       <div class="p-3">
         <div class="row pt-0">
-          <div class="mb-5">
+          <div class="mb-0">
             <form method="post">
               {{ commentform.csrf_token }}
               {{ render_field(commentform.event_id, type="hidden", value=event.id) }}
               <textarea class="form-control" id="desc" name="desc" placeholder="Write a comment" ,
                 oninput="auto_grow_textarea(this)"></textarea>
-              {{ render_field(commentform.submit, type="submit", class="comment-button btn bg-200 tx-000") }}
+
+              <div class="d-flex">
+                {{ render_field(commentform.submit, type="submit", class="ms-auto mt-3 btn bg-200 tx-000") }}
+              </div>
             </form>
           </div>
         </div>
