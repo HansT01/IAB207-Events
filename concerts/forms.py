@@ -49,7 +49,10 @@ class EventForm(FlaskForm):
         "Date and time",
         validators=[InputRequired("Enter a title")],
     )
-    venue = StringField(
+    venue_name = StringField(
+        "Venue name", validators=[InputRequired("Enter the venue name")]
+    )
+    venue_address = StringField(
         "Venue address", validators=[InputRequired("Enter the venue address")]
     )
     desc = TextAreaField(

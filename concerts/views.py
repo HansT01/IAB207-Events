@@ -349,7 +349,8 @@ def add_event(eventform):
         title=eventform.title.data,
         artist=eventform.artist.data,
         genre=eventform.genre.data,
-        venue=eventform.venue.data,
+        venue_name=eventform.venue_name.data,
+        venue_address=eventform.venue_address.data,
         status=eventform.status.data,
         desc=eventform.desc.data,
         tickets=eventform.tickets.data,
@@ -377,7 +378,8 @@ def update_event(eventform):
     event.title = eventform.title.data
     event.artist = eventform.artist.data
     event.genre = eventform.genre.data
-    event.venue = eventform.venue.data
+    event.venue_name = eventform.venue_name.data
+    event.venue_address = eventform.venue_address.data
     event.status = eventform.status.data
     event.desc = eventform.desc.data
     event.tickets = eventform.tickets.data
