@@ -58,14 +58,14 @@ body {
 }
 
 main {
+  /* margin for navbar */
+  padding-top: 4rem;
   /* background-color: green; */
   min-height: 100%;
 }
 
 .page {
-  /* margin for navbar */
-  padding-top: 4rem;
-  min-height: 100vh;
+  min-height: calc(100vh - 4rem);
 }
 
 /* Should be used for all css, keeps image max width at 100% of container width */
