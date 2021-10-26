@@ -67,6 +67,8 @@ def findevents():
         for comment in event.comments:
             username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
+        if event.tickets == 0 and event.status == "upcoming":
+            setattr(event, "status", "booked")
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -100,6 +102,8 @@ def eventdetails(id):
     for comment in event.comments:
         username = User.query.get(comment.user_id).username
         setattr(comment, "username", username)
+    if event.tickets == 0 and event.status == "upcoming":
+        setattr(event, "status", "booked")
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -138,6 +142,8 @@ def myevents():
             username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
+        if event.tickets == 0 and event.status == "upcoming":
+            setattr(event, "status", "booked")
 
     eventform = EventForm()
     commentform = CommentForm()
@@ -187,6 +193,8 @@ def bookedevents():
         for comment in event.comments:
             username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
+        if event.tickets == 0 and event.status == "upcoming":
+            setattr(event, "status", "booked")
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -398,6 +406,7 @@ def add_booking(bookingform):
     price = bookingform.price.data
     event_id = bookingform.event_id.data
     event = Event.query.get(event_id)
+
     if tickets > event.tickets:
         error = "Booking denied: Exceeded number of tickets available"
         flash(error)

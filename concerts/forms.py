@@ -10,7 +10,6 @@ EVENT_STATUS = [
     "upcoming",
     "inactive",
     "cancelled",
-    "postponed",
 ]
 
 
