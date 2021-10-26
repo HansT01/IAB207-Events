@@ -10,7 +10,6 @@ EVENT_STATUS = [
     "upcoming",
     "inactive",
     "cancelled",
-    "postponed",
 ]
 
 
@@ -30,6 +29,12 @@ class RegisterForm(FlaskForm):
             InputRequired("Enter the password again"),
             EqualTo("password", message="Passwords should match"),
         ],
+    )
+    contact = IntegerField(
+        "Contact number", validators=[InputRequired("Enter your contact number")]
+    )
+    address = StringField(
+        "Address", validators=[InputRequired("Enter your current address")]
     )
     submit = SubmitField("Register")
 
