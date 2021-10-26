@@ -62,7 +62,6 @@ def findevents():
     if events == []:
         flash("No events found")
 
-    # Comments only have the user's id stored, so the username must be queried.
     for event in events:
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
