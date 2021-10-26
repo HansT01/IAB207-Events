@@ -109,6 +109,11 @@ img {
   border-color: var(--clr-primary-500);
 }
 
+.bg-600 {
+  background-image: url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+}
+
 .bg-1000 {
   background-color: var(--clr-neutral-1000);
   border-color: var(--clr-neutral-1000);

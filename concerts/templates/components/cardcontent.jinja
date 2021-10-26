@@ -31,7 +31,7 @@
           <p class="mt-2 card-desc">{{event.desc}}</p>
         </div>
 
-        <a href="{{url_for('main.eventdetails', id=event.id)}}" class="stretched-link">More info</a>
+        <a href="{{url_for('main.eventdetails', id=event.id, next=request.url)}}" class="stretched-link">More info</a>
       </div>
     </div>
   </div>
