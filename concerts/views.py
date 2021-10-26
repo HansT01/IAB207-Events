@@ -65,32 +65,16 @@ def findevents():
 
     # Comments only have the user's id stored, so the username must be queried.
     for event in events:
-        for comment in event.comments:
-            username = User.query.get(comment.user_id).username
-            setattr(comment, "username", username)
-
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
             setattr(event, "status_display", event.status)
 
-    commentform = CommentForm()
-    bookingform = BookingForm()
     filterform = FilterForm()
-
-    if commentform.validate_on_submit():
-        add_comment(commentform)
-        return redirect(url_for("main.findevents"))
-
-    if bookingform.validate_on_submit():
-        add_booking(bookingform)
-        return redirect(url_for("main.findevents"))
 
     return render_template(
         "pages/findevents.jinja",
         events=enumerate(events),
-        commentform=commentform,
-        bookingform=bookingform,
         filterform=filterform,
     )
 
@@ -141,21 +125,15 @@ def myevents():
     if events == []:
         flash("No events found")
 
-    # Comments only have the user's id stored, so the username must be queried.
-    # The timestamp for html's datetime-local and how it is stored in the database has different formatting.
     for event in events:
-        for comment in event.comments:
-            username = User.query.get(comment.user_id).username
-            setattr(comment, "username", username)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
+
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
             setattr(event, "status_display", event.status)
 
     eventform = EventForm()
-    commentform = CommentForm()
-    bookingform = BookingForm()
 
     if eventform.validate_on_submit():
         event = Event.query.get(eventform.event_id.data)
@@ -165,20 +143,10 @@ def myevents():
             add_event(eventform)
         return redirect(url_for("main.myevents"))
 
-    if commentform.validate_on_submit():
-        add_comment(commentform)
-        return redirect(url_for("main.myevents"))
-
-    if bookingform.validate_on_submit():
-        add_booking(bookingform)
-        return redirect(url_for("main.myevents"))
-
     return render_template(
         "pages/myevents.jinja",
         events=enumerate(events),
         eventform=eventform,
-        commentform=commentform,
-        bookingform=bookingform,
     )
 
 
@@ -193,37 +161,18 @@ def bookedevents():
     if bookings == []:
         flash("No bookings found")
 
-    # Bookings only have the event's id stored, so the event must be queried.
-    # Comments only have the user's id stored, so the username must be queried.
     for booking in bookings:
         event = Event.query.get(booking.event_id)
         setattr(booking, "event", event)
-        for comment in event.comments:
-            username = User.query.get(comment.user_id).username
-            setattr(comment, "username", username)
+
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
             setattr(event, "status_display", event.status)
 
-    commentform = CommentForm()
-    bookingform = BookingForm()
-
-    if commentform.validate_on_submit():
-        add_comment(commentform)
-        return redirect(url_for("main.bookedevents"))
-
-    if bookingform.validate_on_submit():
-        add_booking(bookingform)
-        # bookings.price = bookings.price * bookings.tickets
-        # db.session.commit()
-        return redirect(url_for("main.bookedevents"))
-
     return render_template(
         "pages/bookedevents.jinja",
         bookings=enumerate(bookings),
-        commentform=commentform,
-        bookingform=bookingform,
     )
 
 
