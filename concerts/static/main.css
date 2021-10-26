@@ -64,6 +64,11 @@ main {
   min-height: 100%;
 }
 
+/*Hover effect for navbar*/
+header ul li a:hover {
+  transform: scale(1.05);
+}
+
 .page {
   min-height: calc(100vh - 4rem);
 }
@@ -213,6 +218,12 @@ img {
   .card-img-section {
     display: none;
   }
+}
+
+/*Hover effect for card*/
+.card:hover{
+  transform: scale(1.01);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
 .card-img {
