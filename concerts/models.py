@@ -31,6 +31,7 @@ class Comment(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     event_id = db.Column(db.Integer, db.ForeignKey("events.id"))
+    username = db.Column(db.String(255), index=True, nullable=False)
 
 
 class Booking(db.Model):
