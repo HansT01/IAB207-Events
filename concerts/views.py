@@ -399,6 +399,7 @@ def add_comment(commentform):
         desc=commentform.desc.data,
         event_id=event_id,
         user_id=current_user.id,
+        username=current_user.username,
     )
 
     db.session.add(comment)
