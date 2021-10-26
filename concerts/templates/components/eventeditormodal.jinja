@@ -32,8 +32,12 @@
               {% endif %}
             </div>
 
+             <div class="mt-3">
+              {{ render_field(eventform.venue_name, type="text", class="form-control", placeholder="Venue name", value=event.venue_name) }}
+            </div>
+
             <div class="mt-3">
-              {{ render_field(eventform.venue, type="text", class="form-control", placeholder="Venue name, venue address", value=event.venue) }}
+              {{ render_field(eventform.venue_address, type="text", class="form-control", placeholder="Venue address", value=event.venue_address) }}
             </div>
 
             <div class="mt-3 col-sm-6">
