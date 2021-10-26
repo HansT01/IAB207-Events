@@ -399,7 +399,7 @@ def add_booking(bookingform):
     event_id = bookingform.event_id.data
     event = Event.query.get(event_id)
     if tickets > event.tickets:
-        error = "Booking denied :Exceeded number of tickets available"
+        error = "Booking denied: Exceeded number of tickets available"
         flash(error)
     else:
         booking = Booking(
