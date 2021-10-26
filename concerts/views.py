@@ -375,5 +375,6 @@ def add_booking(bookingform):
             event_id=event_id,
             user_id=current_user.id,
         )
+        event.tickets = event.tickets - tickets
         db.session.add(booking)
         db.session.commit()
