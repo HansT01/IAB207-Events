@@ -50,8 +50,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(255), index=True, nullable=False)
     email = db.Column(db.String(255), index=True, nullable=False, unique=True)
     hash = db.Column(db.String(255), nullable=False)
-    contact_number = db.Column(db.Integer, nullable=False)
-    address = db.Column(db.String(255), nullable=False)
+    # contact_number = db.Column(db.Integer, nullable=False)
+    # address = db.Column(db.String(255), nullable=False)
 
     events = db.relationship("Event", backref="user")
     comments = db.relationship("Comment", backref="user")

@@ -217,8 +217,8 @@ def register():
         username = registerform.username.data
         email = registerform.email.data
         password = registerform.password.data
-        contact = registerform.contact.data
-        address = registerform.address.data
+        # contact = registerform.contact.data
+        # address = registerform.address.data
 
         if User.query.filter_by(username=username).first():
             flash("Username already exists")
@@ -233,8 +233,8 @@ def register():
             username=username,
             email=email,
             hash=hash,
-            contact_number=contact,
-            address=address,
+            # contact_number=contact,
+            # address=address,
         )
 
         db.session.add(user)
