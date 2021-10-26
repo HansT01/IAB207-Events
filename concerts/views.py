@@ -166,6 +166,8 @@ def bookedevents():
 
     if bookingform.validate_on_submit():
         add_booking(bookingform)
+        # bookings.price = bookings.price * bookings.tickets
+        # db.session.commit()
         return redirect(url_for("main.bookedevents"))
 
     return render_template(

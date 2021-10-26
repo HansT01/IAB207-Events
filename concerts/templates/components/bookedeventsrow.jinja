@@ -20,7 +20,8 @@
         <div class="text-left mb-1 p-3">
           <h5 class="">Date booked: {{booking.timestamp.strftime("%d %b %Y, %I:%M %p")}}</h5>
           <h5 class="">Tickets booked: {{booking.tickets}}</h5>
-          <h5 class="">Ticket price: ${{booking.price}}</h5>
+          <h5 class="">Tickets price: ${{booking.price}}</h5>
+          <h5 class="">Total Tickets price: ${{booking.price * booking.tickets}}</h5>
         </div>
         {% set event = booking.event %}
         <!-- eventcard -->
