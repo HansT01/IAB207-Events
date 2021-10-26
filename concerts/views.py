@@ -59,7 +59,7 @@ def findevents():
                 query = query.filter(Event.status.like(status))
 
     # Limit search result to 10
-    events = query.limit(10).all()
+    events = query.order_by(Event.timestamp.asc()).limit(10).all()
     if events == []:
         flash("No events found")
 
