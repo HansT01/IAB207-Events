@@ -85,10 +85,6 @@ def eventdetails(id):
     """
     event = Event.query.get(id)
 
-    for comment in event.comments:
-        username = User.query.get(comment.user_id).username
-        setattr(comment, "username", username)
-
     if event.tickets == 0 and event.status == "upcoming":
         setattr(event, "status_display", "booked")
     else:

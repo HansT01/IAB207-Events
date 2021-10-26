@@ -110,7 +110,8 @@ img {
 }
 
 .bg-600 {
-  background-image: url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-image: url("https://images.pexels.com/photos/1306791/pexels-photo-1306791.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-position: center;
   background-size: cover;
 }
 
@@ -145,6 +146,15 @@ img {
 
 .tx-500 {
   color: var(--clr-primary-500);
+}
+
+.tx-600 {
+  color: var(--clr-neutral-000) !important ;
+  font-size: xx-large;
+}
+
+.tx-700 {
+  font-size: larger;
 }
 
 .fa-2x {
@@ -274,7 +284,7 @@ img {
 
 /* Home page */
 .home-page {
-  max-width: min(500px, 90%);
+  max-width: min(650px, 90%);
 }
 
 /* Link text */
