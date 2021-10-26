@@ -67,8 +67,11 @@ def findevents():
         for comment in event.comments:
             username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
+
         if event.tickets == 0 and event.status == "upcoming":
-            setattr(event, "status", "booked")
+            setattr(event, "status_display", "booked")
+        else:
+            setattr(event, "status_display", event.status)
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -95,15 +98,17 @@ def findevents():
 def eventdetails(id):
     """
     Renders the eventdetails page.
-    Will use URL parameters to filter events.
     """
     event = Event.query.get(id)
 
     for comment in event.comments:
         username = User.query.get(comment.user_id).username
         setattr(comment, "username", username)
+
     if event.tickets == 0 and event.status == "upcoming":
-        setattr(event, "status", "booked")
+        setattr(event, "status_display", "booked")
+    else:
+        setattr(event, "status_display", event.status)
 
     commentform = CommentForm()
     bookingform = BookingForm()
@@ -143,7 +148,9 @@ def myevents():
             setattr(comment, "username", username)
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
         if event.tickets == 0 and event.status == "upcoming":
-            setattr(event, "status", "booked")
+            setattr(event, "status_display", "booked")
+        else:
+            setattr(event, "status_display", event.status)
 
     eventform = EventForm()
     commentform = CommentForm()
@@ -194,7 +201,9 @@ def bookedevents():
             username = User.query.get(comment.user_id).username
             setattr(comment, "username", username)
         if event.tickets == 0 and event.status == "upcoming":
-            setattr(event, "status", "booked")
+            setattr(event, "status_display", "booked")
+        else:
+            setattr(event, "status_display", event.status)
 
     commentform = CommentForm()
     bookingform = BookingForm()
