@@ -58,7 +58,8 @@ def findevents():
                 status = request.args["status"]
                 query = query.filter(Event.status.like(status))
 
-    events = query.all()
+    # Limit search result to 10
+    events = query.limit(10).all()
     if events == []:
         flash("No events found")
 
