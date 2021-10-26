@@ -31,12 +31,12 @@ class RegisterForm(FlaskForm):
             EqualTo("password", message="Passwords should match"),
         ],
     )
-    # contact = IntegerField(
-    #     "Contact number", validators=[InputRequired("Enter your contact number")]
-    # )
-    # address = StringField(
-    #     "Address", validators=[InputRequired("Enter your current address")]
-    # )
+    contact = IntegerField(
+        "Contact number", validators=[InputRequired("Enter your contact number")]
+    )
+    address = StringField(
+        "Address", validators=[InputRequired("Enter your current address")]
+    )
     submit = SubmitField("Register")
 
 
