@@ -115,7 +115,8 @@ img {
 }
 
 .bg-600 {
-  background-image: url("https://images.pexels.com/photos/1306791/pexels-photo-1306791.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+    url("https://images.pexels.com/photos/1306791/pexels-photo-1306791.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
   background-position: center;
   background-size: cover;
 }
@@ -221,9 +222,9 @@ img {
 }
 
 /*Hover effect for card*/
-.card:hover{
+.hover-effect:hover {
   transform: scale(1.01);
-  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 .card-img {
@@ -314,11 +315,6 @@ a:hover {
 
 .comment-deco .btn:hover {
   color: var(--clr-primary-100) !important;
-}
-
-/* Default height of text area when rendered */
-textarea {
-  height: 90px;
 }
 
 /* Keep text white space when rendering event description */

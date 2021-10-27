@@ -25,16 +25,15 @@
         <h4>
           Artist: {{event.artist}} <br />
           Genre: {{event.genre}} <br />
-          Date: {{event.timestamp.strftime("%d %b %Y, %I:%M %p")}}
-          <br />
-          <b>Venue Name:</b> {{event.venue_name}} <br />
-          <b>Venue Address:</b> {{event.venue_address}}
-        </p>
+          Date: {{event.timestamp.strftime("%d %b %Y, %I:%M %p")}} <br />
+          Venue Name: {{event.venue_name}} <br />
+          Venue Address: {{event.venue_address}}
+        </h4>
       </div>
       <div class="col-auto text-sm-end">
         <h4 class="mt-3 mt-sm-0">
           {{event.tickets}} tickets available <br />
-          <small>(AUD)</small> ${{event.price}} per ticket
+          ${{event.price}} AUD per ticket
         </h4>
         <button type="button" class="col btn bg-200 tx-000 mt-3" data-bs-dismiss="modal" data-bs-toggle="modal"
           href="#booking-modal-{{index}}">
