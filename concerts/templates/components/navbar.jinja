@@ -8,7 +8,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="{{url_for('main.findevents')}}">
+        <a class="nav-link d-flex" href="{{url_for('findevents.show')}}">
           <svg class="fas fa-2x fa-search fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center">
             Find events
@@ -16,13 +16,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="{{url_for('main.myevents')}}">
+        <a class="nav-link d-flex" href="{{url_for('myevents.show')}}">
           <svg class="fas fa-2x fa-clipboard-list fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center"> My events </span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="{{url_for('main.bookedevents')}}">
+        <a class="nav-link d-flex" href="{{url_for('bookedevents.show')}}">
           <svg class="fas fa-2x fa-bookmark fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center">
             Booked events
@@ -30,7 +30,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link d-flex" href="{{url_for('main.account')}}">
+        <a class="nav-link d-flex" href="{{url_for('auth.account')}}">
           <svg class="fas fa-2x fa-user-circle fa-fw mx-2"></svg>
           <span class="nav-text link-text align-self-center"> Account </span>
         </a>

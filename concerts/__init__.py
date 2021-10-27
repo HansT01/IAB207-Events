@@ -23,7 +23,7 @@ def create_app():
 
     # Initialize login manager
     login_manager = LoginManager()
-    login_manager.login_view = "main.account"
+    login_manager.login_view = "auth.account"
     login_manager.login_message = "Please log in to access this feature."
     login_manager.init_app(app)
 
@@ -45,7 +45,11 @@ def create_app():
         return User.query.get(int(id))
 
     # Add blueprints
-    from . import views
+    from . import views, findevents, myevents, bookedevents, auth
 
     app.register_blueprint(views.mainbp)
+    app.register_blueprint(findevents.bp)
+    app.register_blueprint(myevents.bp)
+    app.register_blueprint(bookedevents.bp)
+    app.register_blueprint(auth.bp)
     return app
