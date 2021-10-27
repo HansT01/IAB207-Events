@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
@@ -26,6 +26,16 @@ def create_app():
     login_manager.login_view = "main.account"
     login_manager.login_message = "Please log in to access this feature."
     login_manager.init_app(app)
+
+    # Error handling
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template("pages/404.jinja"), 404
+
+    @app.errorhandler(500)
+    def internal_error(e):
+        db.session.rollback()
+        return render_template("pages/500.jinja"), 500
 
     # User loader function
     from .models import User
