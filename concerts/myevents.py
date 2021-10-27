@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from datetime import datetime
@@ -128,3 +128,12 @@ def update_event(eventform):
     event.user_id = current_user.id
 
     db.session.commit()
+
+
+@login_required
+def delete_event(event_id):
+    event = Event.query.get(event_id)
+    db.session.delete(event)
+    db.session.commit()
+    flash("event deleted")
+    return redirect(url_for("myevents.show"))

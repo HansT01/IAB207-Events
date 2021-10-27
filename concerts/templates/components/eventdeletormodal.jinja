@@ -1,0 +1,20 @@
+{% from "_formhelpers.jinja" import render_field %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<div class="modal fade" id="event-deletor-{{index}}" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-400 tx-000">
+    <h5 class="modal-title">Delete this event</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      <div class="modal-body">
+        <p>Are you sure about deleting this event</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
