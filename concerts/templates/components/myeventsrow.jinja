@@ -6,7 +6,7 @@
 
   <!-- eventeditormodal -->
   {% include "./components/eventeditormodal.jinja" %}
-  {% include "./components/eventdeletormodal.jinja" %}
+  {% include "./components/confirmdeletemodal.jinja" %}
 
   <div class="col-sm-3 d-flex justify-content-center ps-3 conditional-padding conditional-flex-direction">
     <button class="
@@ -37,7 +37,7 @@
         w-100
         nopadding
         shadow
-      " type="button" data-bs-toggle="modal" data-bs-target="#event-deletor-{{index}}">
+      " type="button" data-bs-toggle="modal" data-bs-target="#delete-event-{{index}}">
       Delete
     </button>
   </div>
