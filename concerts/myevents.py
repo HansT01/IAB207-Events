@@ -130,10 +130,13 @@ def update_event(eventform):
     db.session.commit()
 
 
-@login_required
-def delete_event(event_id):
-    event = Event.query.get(event_id)
-    db.session.delete(event)
-    db.session.commit()
-    flash("event deleted")
-    return redirect(url_for("myevents.show"))
+# @login_required
+# def delete(event_id):
+#     events = Event.query.all()
+#     for event in events:
+#         if event.id == event_id:
+#             db.session.delete(event)
+#             db.session.commit()
+#             flash("event deleted")
+#             return redirect(url_for("myevents.show"))
+#     return redirect(url_for("myevents.show"))
