@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 from .forms import EventForm
-from .models import Event
+from .models import Booking, Event
 from . import db
 
 bp = Blueprint("myevents", __name__, url_prefix="/myevents")
@@ -141,5 +141,8 @@ def update_event(eventform):
 @login_required
 def delete_event(event_id):
     event = Event.query.get(event_id)
+    bookings = Booking.query.filter(Booking.event_id == event_id).all()
+    for booking in bookings:
+        db.session.delete(booking)
     db.session.delete(event)
     db.session.commit()
