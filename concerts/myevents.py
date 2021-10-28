@@ -33,7 +33,9 @@ def show():
     eventform = EventForm()
 
     if eventform.validate_on_submit():
+        print(eventform.event_id.data)
         event = Event.query.get(eventform.event_id.data)
+        print(event)
         if event:
             update_event(eventform)
         else:
