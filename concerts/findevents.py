@@ -35,7 +35,14 @@ def show():
                 query = query.filter(Event.timestamp <= beforetimestamp)
             if key == "status":
                 status = request.args["status"]
-                query = query.filter(Event.status.like(status))
+                if status == "booked":
+                    query = query.filter(Event.status.like("upcoming"))
+                    query = query.filter(Event.tickets == 0)
+                elif status == "upcoming":
+                    query = query.filter(Event.status.like("upcoming"))
+                    query = query.filter(Event.tickets != 0)
+                else:
+                    query = query.filter(Event.status.like(status))
 
     # Limit search result to 10
     events = query.order_by(Event.timestamp.asc()).limit(10).all()
