@@ -12,7 +12,9 @@
         <p>Are you sure you want to delete this event</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Confirm</button>
+        <a href="{{ url_for('myevents.delete', event_id=1) }}">
+          <button type="button" class="btn btn-primary">Confirm</button>
+        </a>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>

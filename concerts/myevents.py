@@ -47,6 +47,14 @@ def show():
     )
 
 
+@bp.route("/delete/<event_id>", methods=["GET", "POST"])
+@login_required
+def delete(event_id):
+    delete_event(event_id)
+    flash("Successfully deleted event")
+    return redirect(url_for("myevents.show"))
+
+
 def check_upload_file(eventform):
     """
     Uploads a file from form to database and return its upload path.
@@ -132,11 +140,6 @@ def update_event(eventform):
 
 @login_required
 def delete_event(event_id):
-    events = Event.query.all()
-    for event in events:
-        if event.id == event_id:
-            db.session.delete(event)
-            db.session.commit()
-            flash("event deleted")
-            return redirect(url_for("myevents.show"))
-    return redirect(url_for("myevents.show"))
+    event = Event.query.get(event_id)
+    db.session.delete(event)
+    db.session.commit()
