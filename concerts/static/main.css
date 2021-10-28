@@ -268,6 +268,10 @@ img {
   width: 20em;
 }
 
+.conditional-flex-direction {
+  flex-direction: column !important;
+}
+
 @media only screen and (max-width: 576px) {
   .card-modal + .col-sm-3 {
     padding: 0 !important;
@@ -275,6 +279,10 @@ img {
 
   .conditional-padding {
     padding: 0 !important;
+  }
+
+  .conditional-flex-direction {
+    flex-direction: row !important;
   }
 }
 
