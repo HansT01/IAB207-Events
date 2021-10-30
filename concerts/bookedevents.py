@@ -10,7 +10,7 @@ bp = Blueprint("bookedevents", __name__, url_prefix="/bookedevents")
 @login_required
 def show():
     """
-    Renders the bookedevents page by quering bookings with the current user's id.
+    Renders the bookedevents page by querying bookings with the current user's id.
     Requires the user to be logged in.
     """
     bookings = current_user.bookings
