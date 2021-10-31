@@ -14,6 +14,7 @@ def show():
     Renders the findevents page.
     Will use URL parameters to filter events.
     """
+    error = None
     query = Event.query
 
     # URL parameter filters, ignore the "submit" key in arguments
@@ -56,16 +57,25 @@ def show():
 
     # Flash an error if the query returns no results
     if events == []:
-        flash("No events found")
-
-    # If the status is upcoming, but there are no tickets available, set the status display to booked
-    for event in events:
-        if event.tickets == 0 and event.status == "upcoming":
-            setattr(event, "status_display", "booked")
-        else:
-            setattr(event, "status_display", event.status)
+        error = "No events found"
+    else:
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
+        for event in events:
+            if event.tickets == 0 and event.status == "upcoming":
+                setattr(event, "status_display", "booked")
+            else:
+                setattr(event, "status_display", event.status)
 
     filterform = FilterForm()
+
+    if error is None:
+        return render_template(
+            "pages/findevents.jinja",
+            events=enumerate(events),
+            filterform=filterform,
+        )
+    else:
+        flash(error)
 
     return render_template(
         "pages/findevents.jinja",
@@ -79,28 +89,32 @@ def details(id):
     """
     Renders the eventdetails page.
     """
+    error = None
     event = Event.query.get(id)
 
     # If event cannot be found by the id, return 404 not found
     if event == None:
         abort(404)
-
-    # If the status is upcoming, but there are no tickets available, set the status display to booked
-    if event.tickets == 0 and event.status == "upcoming":
-        setattr(event, "status_display", "booked")
     else:
-        setattr(event, "status_display", event.status)
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
+        if event.tickets == 0 and event.status == "upcoming":
+            setattr(event, "status_display", "booked")
+        else:
+            setattr(event, "status_display", event.status)
 
-    commentform = CommentForm()
-    bookingform = BookingForm()
+        commentform = CommentForm()
+        bookingform = BookingForm()
 
-    if commentform.validate_on_submit():
-        add_comment(commentform)
-        return redirect(url_for("findevents.details", id=id))
+        if commentform.validate_on_submit():
+            add_comment(commentform)
+            return redirect(url_for("findevents.details", id=id))
 
-    if bookingform.validate_on_submit():
-        add_booking(bookingform)
-        return redirect(url_for("findevents.details", id=id))
+        if bookingform.validate_on_submit():
+            add_booking(bookingform)
+            return redirect(url_for("findevents.details", id=id))
+
+    if error:
+        flash(error)
 
     return render_template(
         "pages/eventdetails.jinja",

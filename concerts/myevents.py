@@ -18,13 +18,16 @@ def show():
     Renders the myevents page by querying events with the current user's id.
     Requires the user to be logged in.
     """
+    error = None
     events = current_user.events
     if events == []:
-        flash("No events found")
+        error = "No events found"
 
     for event in events:
+        # HTML datetime-local input has a different formatting to python
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
@@ -33,12 +36,16 @@ def show():
     eventform = EventForm()
 
     if eventform.validate_on_submit():
+        # If the event already exists, update instead of creating a new event
         event = Event.query.get(eventform.event_id.data)
         if event:
             update_event(eventform)
         else:
             add_event(eventform)
         return redirect(url_for("myevents.show"))
+
+    if error:
+        flash(error)
 
     return render_template(
         "pages/myevents.jinja",

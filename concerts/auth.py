@@ -15,8 +15,8 @@ def account():
     """
     Renders the login page.
     """
-    loginform = LoginForm()
     error = None
+    loginform = LoginForm()
 
     if loginform.validate_on_submit():
         email = loginform.email.data
@@ -31,7 +31,6 @@ def account():
 
         if error is None:
             login_user(user)
-            return redirect(url_for("auth.account"))
         else:
             flash(error)
 
@@ -45,8 +44,8 @@ def register():
     """
     Renders the register page.
     """
-    registerform = RegisterForm()
     error = None
+    registerform = RegisterForm()
 
     if registerform.validate_on_submit():
         username = registerform.username.data
