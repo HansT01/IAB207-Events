@@ -46,6 +46,7 @@ def register():
     Renders the register page.
     """
     registerform = RegisterForm()
+    error = None
 
     if registerform.validate_on_submit():
         username = registerform.username.data
@@ -55,26 +56,28 @@ def register():
         address = registerform.address.data
 
         if User.query.filter_by(username=username).first():
-            flash("Username already exists")
+            error = "Username already exists"
+        elif User.query.filter_by(email=email).first():
+            error = "Email already exists"
+
+        if error is None:
+            hash = generate_password_hash(password)
+            user = User(
+                username=username,
+                email=email,
+                hash=hash,
+                contact_number=contact,
+                address=address,
+            )
+
+            db.session.add(user)
+            db.session.commit()
+
+            flash("Successfully registered")
             return redirect(url_for("auth.account"))
+        else:
+            flash(error)
 
-        if User.query.filter_by(email=email).first():
-            flash("Email already exists")
-            return redirect(url_for("auth.account"))
-
-        hash = generate_password_hash(password)
-        user = User(
-            username=username,
-            email=email,
-            hash=hash,
-            contact_number=contact,
-            address=address,
-        )
-
-        db.session.add(user)
-        db.session.commit()
-
-        flash("Successfully registered")
         return redirect(url_for("auth.account"))
 
     return render_template("pages/register.jinja", registerform=registerform)
