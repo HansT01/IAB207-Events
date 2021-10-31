@@ -14,13 +14,18 @@ def show():
     Requires the user to be logged in.
     """
     bookings = current_user.bookings
+
+    # If a user has no bookings, flash a message
     if bookings == []:
         flash("No bookings found")
 
     for booking in bookings:
+        # Get an event by its id, and attach it to the booking object
+        # This is required since a booking only has a booking_id attribute
         event = Event.query.get(booking.event_id)
         setattr(booking, "event", event)
 
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
