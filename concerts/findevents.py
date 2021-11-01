@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
 from flask_login import login_required, current_user
 
 from .forms import BookingForm, FilterForm, CommentForm
@@ -14,25 +14,33 @@ def show():
     Renders the findevents page.
     Will use URL parameters to filter events.
     """
+    error = None
     query = Event.query
 
+    # URL parameter filters, ignore the "submit" key in arguments
     for key in request.args.keys():
         if request.args[key] != "" and request.args[key] != "submit":
             if key == "title":
                 title = "%" + request.args["title"] + "%"
                 query = query.filter(Event.title.like(title))
+
             if key == "artist":
                 artist = "%" + request.args["artist"] + "%"
                 query = query.filter(Event.artist.like(artist))
+
             if key == "genre":
                 genre = "%" + request.args["genre"] + "%"
                 query = query.filter(Event.genre.like(genre))
+
             if key == "aftertimestamp":
                 aftertimestamp = request.args["aftertimestamp"]
                 query = query.filter(Event.timestamp >= aftertimestamp)
+
             if key == "beforetimestamp":
                 beforetimestamp = request.args["beforetimestamp"]
                 query = query.filter(Event.timestamp <= beforetimestamp)
+
+            # If a the status is booked or upcoming, check the number of available tickets
             if key == "status":
                 status = request.args["status"]
                 if status == "booked":
@@ -44,18 +52,30 @@ def show():
                 else:
                     query = query.filter(Event.status.like(status))
 
-    # Limit search result to 10
+    # Limit search result to 10, and sort by timestamp
     events = query.order_by(Event.timestamp.asc()).limit(10).all()
-    if events == []:
-        flash("No events found")
 
-    for event in events:
-        if event.tickets == 0 and event.status == "upcoming":
-            setattr(event, "status_display", "booked")
-        else:
-            setattr(event, "status_display", event.status)
+    # Flash an error if the query returns no results
+    if events == []:
+        error = "No events found"
+    else:
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
+        for event in events:
+            if event.tickets == 0 and event.status == "upcoming":
+                setattr(event, "status_display", "booked")
+            else:
+                setattr(event, "status_display", event.status)
 
     filterform = FilterForm()
+
+    if error is None:
+        return render_template(
+            "pages/findevents.jinja",
+            events=enumerate(events),
+            filterform=filterform,
+        )
+    else:
+        flash(error)
 
     return render_template(
         "pages/findevents.jinja",
@@ -69,23 +89,32 @@ def details(id):
     """
     Renders the eventdetails page.
     """
+    error = None
     event = Event.query.get(id)
 
-    if event.tickets == 0 and event.status == "upcoming":
-        setattr(event, "status_display", "booked")
+    # If event cannot be found by the id, return 404 not found
+    if event == None:
+        abort(404)
     else:
-        setattr(event, "status_display", event.status)
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
+        if event.tickets == 0 and event.status == "upcoming":
+            setattr(event, "status_display", "booked")
+        else:
+            setattr(event, "status_display", event.status)
 
-    commentform = CommentForm()
-    bookingform = BookingForm()
+        commentform = CommentForm()
+        bookingform = BookingForm()
 
-    if commentform.validate_on_submit():
-        add_comment(commentform)
-        return redirect(url_for("findevents.details", id=id))
+        if commentform.validate_on_submit():
+            add_comment(commentform)
+            return redirect(url_for("findevents.details", id=id))
 
-    if bookingform.validate_on_submit():
-        add_booking(bookingform)
-        return redirect(url_for("findevents.details", id=id))
+        if bookingform.validate_on_submit():
+            add_booking(bookingform)
+            return redirect(url_for("findevents.details", id=id))
+
+    if error:
+        flash(error)
 
     return render_template(
         "pages/eventdetails.jinja",
@@ -124,6 +153,8 @@ def add_booking(bookingform):
     event_id = bookingform.event_id.data
     event = Event.query.get(event_id)
 
+    # If the number of tickets booked exceeds the remaining number of tickets, flash an error
+    # Else remove the tickets from event tickets, create a booking object, and commit add it to the database
     if tickets > event.tickets:
         error = "Booking denied: Exceeded number of tickets available"
         flash(error)

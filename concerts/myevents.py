@@ -15,16 +15,19 @@ bp = Blueprint("myevents", __name__, url_prefix="/myevents")
 @login_required
 def show():
     """
-    Renders the myevents page by quering events with the current user's id.
+    Renders the myevents page by querying events with the current user's id.
     Requires the user to be logged in.
     """
+    error = None
     events = current_user.events
     if events == []:
-        flash("No events found")
+        error = "No events found"
 
     for event in events:
+        # HTML datetime-local input has a different formatting to python
         setattr(event, "timestampformatted", event.timestamp.strftime("%Y-%m-%dT%H:%M"))
 
+        # If the status is upcoming, but there are no tickets available, set the status display to booked
         if event.tickets == 0 and event.status == "upcoming":
             setattr(event, "status_display", "booked")
         else:
@@ -33,14 +36,16 @@ def show():
     eventform = EventForm()
 
     if eventform.validate_on_submit():
-        print(eventform.event_id.data)
+        # If the event already exists, update instead of creating a new event
         event = Event.query.get(eventform.event_id.data)
-        print(event)
         if event:
             update_event(eventform)
         else:
             add_event(eventform)
         return redirect(url_for("myevents.show"))
+
+    if error:
+        flash(error)
 
     return render_template(
         "pages/myevents.jinja",
@@ -52,6 +57,10 @@ def show():
 @bp.route("/delete/<event_id>", methods=["GET", "POST"])
 @login_required
 def delete(event_id):
+    """
+    Calls delete event function.
+    Requires the user to be logged in.
+    """
     delete_event(event_id)
     flash("Successfully deleted event")
     return redirect(url_for("myevents.show"))
@@ -90,6 +99,7 @@ def check_upload_file(eventform):
 def add_event(eventform):
     """
     Adds an event to the database.
+    Requires the user to be logged in.
     """
     image = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
@@ -142,6 +152,10 @@ def update_event(eventform):
 
 @login_required
 def delete_event(event_id):
+    """
+    Delete an event on the database.
+    Requires the user to be logged in.
+    """
     event = Event.query.get(event_id)
     bookings = Booking.query.filter(Booking.event_id == event_id).all()
     for booking in bookings:
