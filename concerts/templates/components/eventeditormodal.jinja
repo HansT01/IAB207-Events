@@ -76,11 +76,11 @@
             </div>
 
             <div class="my-2 col-sm-6">
-              {{ render_field(eventform.tickets, type="number", class="form-control", placeholder="Number of available tickets", value=event.tickets) }}
+              {{ render_field(eventform.tickets, type="number", class="form-control", placeholder="Number of available tickets", value=event.tickets, min=0) }}
             </div>
 
             <div class="my-2 col-sm-6">
-              {{ render_field(eventform.price, type="number", class="form-control", placeholder="Price per ticket", value=event.price) }}
+              {{ render_field(eventform.price, type="number", class="form-control", placeholder="Price per ticket", value=event.price, min=0) }}
             </div>
           </div>
 

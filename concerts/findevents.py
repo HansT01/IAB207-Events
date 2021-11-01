@@ -158,9 +158,6 @@ def add_booking(bookingform):
     if tickets > event.tickets:
         error = "Booking denied: Exceeded number of tickets available"
         flash(error)
-    elif tickets <= 0:
-        error = "Booking denied: Number of tickets cannot be 0"
-        flash(error)
     else:
         booking = Booking(
             tickets=tickets,
