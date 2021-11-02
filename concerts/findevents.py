@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
 from flask_login import login_required, current_user
 
@@ -16,6 +17,7 @@ def show():
     """
     error = None
     query = Event.query
+    specified_after_date = False
 
     # URL parameter filters, ignore the "submit" key in arguments
     for key in request.args.keys():
@@ -35,6 +37,7 @@ def show():
             if key == "aftertimestamp":
                 aftertimestamp = request.args["aftertimestamp"]
                 query = query.filter(Event.timestamp >= aftertimestamp)
+                specified_after_date = True
 
             if key == "beforetimestamp":
                 beforetimestamp = request.args["beforetimestamp"]
@@ -51,6 +54,10 @@ def show():
                     query = query.filter(Event.tickets != 0)
                 else:
                     query = query.filter(Event.status.like(status))
+
+    # If the timestampafter is left empty, it will only show upcoming events
+    if not specified_after_date:
+        query = query.filter(Event.timestamp >= datetime.now())
 
     # Limit search result to 10, and sort by timestamp
     events = query.order_by(Event.timestamp.asc()).limit(10).all()
