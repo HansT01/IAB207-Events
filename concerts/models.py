@@ -6,15 +6,14 @@ from . import db
 
 
 def setup_db(app):
-    # database_name = "local_db_name"
-    # default_database_path = "postgresql://{}:{}@{}/{}".format(
-    #     "postgres", "password", "localhost:5432", database_name
-    # )
-    print("here1")
-    database_path = os.getenv("DATABASE_URL").replace("://", "ql://", 1)
-    print(database_path)
-    print("here2 with correct hacks")
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    database_path = os.getenv("DATABASE_URL")
+
+    if database_path is None:
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///testdb.sqlite"
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = database_path.replace("://", "ql://", 1)
+
+    print(app.config["SQLALCHEMY_DATABASE_URI"])
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
