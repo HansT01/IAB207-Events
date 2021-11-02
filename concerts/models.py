@@ -10,8 +10,10 @@ def setup_db(app):
 
     if database_path is None:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///testdb.sqlite"
+        print("Using test database")
     else:
         app.config["SQLALCHEMY_DATABASE_URI"] = database_path.replace("://", "ql://", 1)
+        print("Using DATABASE_URL")
 
     print(app.config["SQLALCHEMY_DATABASE_URI"])
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
