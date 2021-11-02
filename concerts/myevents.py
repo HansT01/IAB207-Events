@@ -40,9 +40,16 @@ def show():
         event = Event.query.get(eventform.event_id.data)
         if event:
             update_event(eventform)
+            return redirect(url_for("myevents.show"))
         else:
-            add_event(eventform)
-        return redirect(url_for("myevents.show"))
+            # If the user tries to create an event in the past, return an error
+            localdate = datetime.now()
+            eventdate = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
+            if eventdate < localdate:
+                error = "Cannot create an event in the past"
+            else:
+                add_event(eventform)
+                return redirect(url_for("myevents.show"))
 
     if error:
         flash(error)
