@@ -11,9 +11,9 @@ def setup_db(app):
     #     "postgres", "password", "localhost:5432", database_name
     # )
     print("here1")
-    database_path = os.getenv("DATABASE_URL".replace("://", "ql://", 1))
+    database_path = os.getenv("DATABASE_URL").replace("://", "ql://", 1)
     print(database_path)
-    print("here2 with hacks")
+    print("here2 with correct hacks")
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
