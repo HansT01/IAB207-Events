@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 app = Flask(__name__)
 
@@ -18,10 +19,10 @@ def create_app():
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     # Setup sql alchemy
-    app.config[
-        "SQLALCHEMY_DATABASE_URI"
-    ] = "postgres://minovrqrwtozfg:66a1918e869dce9d35263b373131a3cb2ed8c7c98f3f9b2ccee1a451d5fad94a@ec2-3-217-91-165.compute-1.amazonaws.com:5432/d2od900bb0gmgn"
-    db.init_app(app)
+    from concerts.models import setup_db, db_drop_and_create_all
+
+    setup_db(app)
+    # db_drop_and_create_all()
 
     # Initialize login manager
     login_manager = LoginManager()
@@ -40,7 +41,7 @@ def create_app():
         return render_template("pages/500.jinja"), 500
 
     # User loader function
-    from .models import User
+    from .models import User, db_drop_and_create_all
 
     @login_manager.user_loader
     def load_user(id):

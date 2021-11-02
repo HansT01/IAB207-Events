@@ -1,7 +1,25 @@
 from datetime import datetime
 from flask_login import UserMixin
+import os
 
 from . import db
+
+
+def setup_db(app):
+    database_name = "local_db_name"
+    default_database_path = "postgresql://{}:{}@{}/{}".format(
+        "postgres", "password", "localhost:5432", database_name
+    )
+    database_path = os.getenv("DATABASE_URL", default_database_path)
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.app = app
+    db.init_app(app)
+
+
+def db_drop_and_create_all():
+    db.drop_all()
+    db.create_all()
 
 
 class Event(db.Model):
