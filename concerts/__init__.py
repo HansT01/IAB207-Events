@@ -18,7 +18,9 @@ def create_app():
     app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
     # Setup sql alchemy
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///events.sqlite"
+    app.config[
+        "SQLALCHEMY_DATABASE_URI"
+    ] = "postgres://minovrqrwtozfg:66a1918e869dce9d35263b373131a3cb2ed8c7c98f3f9b2ccee1a451d5fad94a@ec2-3-217-91-165.compute-1.amazonaws.com:5432/d2od900bb0gmgn"
     db.init_app(app)
 
     # Initialize login manager
