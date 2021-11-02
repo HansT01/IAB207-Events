@@ -80,6 +80,7 @@ def show():
             "pages/findevents.jinja",
             events=enumerate(events),
             filterform=filterform,
+            request=request,
         )
     else:
         flash(error)
@@ -88,6 +89,7 @@ def show():
         "pages/findevents.jinja",
         events=enumerate(events),
         filterform=filterform,
+        request=request,
     )
 
 
