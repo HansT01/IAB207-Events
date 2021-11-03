@@ -24,15 +24,15 @@ def show():
         if request.args[key] != "" and request.args[key] != "submit":
             if key == "title":
                 title = "%" + request.args["title"] + "%"
-                query = query.filter(Event.title.like(title))
+                query = query.filter(Event.title.ilike(title))
 
             if key == "artist":
                 artist = "%" + request.args["artist"] + "%"
-                query = query.filter(Event.artist.like(artist))
+                query = query.filter(Event.artist.ilike(artist))
 
             if key == "genre":
                 genre = "%" + request.args["genre"] + "%"
-                query = query.filter(Event.genre.like(genre))
+                query = query.filter(Event.genre.ilike(genre))
 
             if key == "aftertimestamp":
                 aftertimestamp = request.args["aftertimestamp"]
