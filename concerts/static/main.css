@@ -330,3 +330,7 @@ a:hover {
 .event-description {
   white-space: pre-wrap;
 }
+
+textarea {
+  height: 65px;
+}

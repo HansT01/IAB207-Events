@@ -26,7 +26,8 @@
           Artist: {{event.artist}} <br />
           Genre: {{event.genre}} <br />
           Date: {{event.timestamp.strftime("%d %b %Y, %I:%M %p")}} <br />
-          Venue: {{event.venue_name}}, {{event.venue_address}}
+          Venue: {{event.venue_name}} <br />
+          Addres: {{event.venue_address}}
         </h4>
       </div>
       <div class="col-auto text-sm-end">
@@ -55,7 +56,7 @@
         <form method="post">
           {{ commentform.csrf_token }}
           {{ render_field(commentform.event_id, type="hidden", value=event.id) }}
-          <textarea class="form-control" id="desc" name="desc" placeholder="Write a comment" ,
+          <textarea class="form-control" id="desc" name="desc" placeholder="Write a comment"
             oninput="auto_grow_textarea(this)"></textarea>
 
           <div class="d-flex">
