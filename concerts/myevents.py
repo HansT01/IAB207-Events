@@ -40,8 +40,7 @@ def show():
 
     if eventform.validate_on_submit():
         # If the event already exists, update instead of creating a new event
-        event = Event.query.get(eventform.event_id.data)
-        if event:
+        if eval(eventform.event_id.data):
             update_event(eventform)
             return redirect(url_for("myevents.show"))
         else:
@@ -83,6 +82,8 @@ def check_upload_file(eventform):
     If there is no input file and no existing event, return the default image upload path.
     """
     file = eventform.image.data
+    print("CHECKING UPLOADED FILE")
+    print(file)
     event_id = eventform.event_id.data
 
     if file:
