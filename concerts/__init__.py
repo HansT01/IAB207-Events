@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_login.login_manager import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 
 db = SQLAlchemy()
@@ -13,6 +14,9 @@ def create_app():
 
     # Setup bootstrap for quick forms
     bootstrap = Bootstrap(app)
+
+    # Database migrations?
+    migrate = Migrate(app, db)
 
     # Configure upload folder
     UPLOAD_FOLDER = "/concerts/static/images"
