@@ -20,6 +20,7 @@ def show():
     """
     error = None
     events = current_user.events
+    events.sort(key=lambda event: event.id, reverse=True)
     if events == []:
         error = "No events found"
 
