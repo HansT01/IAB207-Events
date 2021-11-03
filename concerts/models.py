@@ -39,7 +39,8 @@ class Event(db.Model):
     desc = db.Column(db.Text)
     tickets = db.Column(db.Integer)
     price = db.Column(db.Float)
-    image = db.Column(db.String(255))
+    image_data = db.Column(db.LargeBinary)
+    image_render = db.Column(db.Text)
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 

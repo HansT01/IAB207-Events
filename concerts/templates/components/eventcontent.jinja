@@ -2,7 +2,7 @@
 
 <div class="row justify-content-center p-3 position-relative">
   <div class="ratio ratio-16x9">
-    <img src="{{event.image}}" class="img-fluid rounded-top card-img" alt="concert" />
+    <img src="data:;base64,{{event.image_render}}" class="img-fluid rounded-top card-img" alt="concert" />
   </div>
   <a href="{{request.args.get('next', '')}}" class="position-absolute ms-5 mt-3">
     <button type="button" class="btn bg-200 tx-000 login-button">

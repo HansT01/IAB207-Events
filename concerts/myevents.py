@@ -3,6 +3,8 @@ from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from datetime import datetime
 import os
+from base64 import b64encode
+import base64
 
 from .forms import EventForm
 from .models import Booking, Event
@@ -84,23 +86,18 @@ def check_upload_file(eventform):
     event_id = eventform.event_id.data
 
     if file:
-        filename = secure_filename(file.filename)
-        BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-        filepath = os.path.join(BASE_PATH, "static/images", filename)
-        file.save(filepath)
+        image_data = file.read()
+        image_render = base64.b64encode(image_data).decode("ascii")
 
-        db_upload_path = "/static/images/" + filename
-        return db_upload_path
+        return [image_data, image_render]
 
     elif event_id:
         event = Event.query.get(event_id)
-        db_upload_path = event.image
-        return db_upload_path
+        return [event.image_data, event.image_render]
 
     else:
-        flash("No image found, using default image")
-        db_upload_path = "/static/images/image-regular.png"
-        return db_upload_path
+        flash("No image was found")
+        return ["", ""]
 
 
 @login_required
@@ -109,7 +106,7 @@ def add_event(eventform):
     Adds an event to the database.
     Requires the user to be logged in.
     """
-    image = check_upload_file(eventform)
+    [image_data, image_render] = check_upload_file(eventform)
     timestamp = datetime.strptime(eventform.timestamp.data, "%Y-%m-%dT%H:%M")
 
     event = Event(
@@ -123,7 +120,8 @@ def add_event(eventform):
         desc=eventform.desc.data,
         tickets=eventform.tickets.data,
         price=eventform.price.data,
-        image=image,
+        image_data=image_data,
+        image_render=image_render,
         user_id=current_user.id,
     )
 
