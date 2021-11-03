@@ -22,7 +22,7 @@ def create_app():
     from concerts.models import setup_db, db_drop_and_create_all
 
     setup_db(app)
-    # db_drop_and_create_all()
+    db_drop_and_create_all()
 
     # Initialize login manager
     login_manager = LoginManager()
