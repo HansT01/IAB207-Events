@@ -56,8 +56,8 @@ def show():
                     query = query.filter(Event.status.like(status))
 
     # If the timestampafter is left empty, it will only show upcoming events
-    if not specified_after_date:
-        query = query.filter(Event.timestamp >= datetime.now())
+    # if not specified_after_date:
+    #     query = query.filter(Event.timestamp >= datetime.now())
 
     # Limit search result to 10, and sort by timestamp
     events = query.order_by(Event.timestamp.asc()).limit(10).all()
